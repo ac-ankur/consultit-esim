@@ -156,38 +156,45 @@ export default function EsimCountryCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
         </div>
 
-        <div className="p-6 text-center">
-          <h3 className="text-xl font-bold text-gray-800 mb-1 tracking-wide group-hover:text-indigo-700 transition-colors duration-300">
-            {country?.countryName || "Country"}
-            <span className="text-sm font-normal text-gray-500 ml-1">eSIM</span>
-          </h3>
+    <div className="p-6 text-center">
+  <h3 className="text-xl font-bold text-gray-800 mb-1 tracking-wide group-hover:text-indigo-700 transition-colors duration-300">
+    {country?.countryName || "Country"}
+    <span className="text-sm font-normal text-gray-500 ml-1">eSIM</span>
+  </h3>
 
-          <button
-            onClick={() => onBuy(country?.countryName?.toLowerCase())}
-            className="relative w-full mt-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_100%] text-white py-3 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-500 hover:bg-[position:100%_0%] hover:scale-105 active:scale-95 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            <span
-              style={{ cursor: "pointer" }}
-              className="relative z-10 flex items-center justify-center gap-2"
-            >
-              <span>Quick Buy</span>
-              <svg
-                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </span>
-          </button>
-        </div>
+  
+
+  <div className="text-lg font-semibold text-indigo-600 mb-2">
+    {price || "₹—"}
+  </div>
+
+  <button
+    onClick={() => onBuy(country?.countryName?.toLowerCase())}
+    className="relative w-full mt-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_100%] text-white py-3 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-500 hover:bg-[position:100%_0%] hover:scale-105 active:scale-95 overflow-hidden"
+  >
+    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+    <span
+      style={{ cursor: "pointer" }}
+      className="relative z-10 flex items-center justify-center gap-2"
+    >
+      <span>Quick Buy</span>
+      <svg
+        className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M17 8l4 4m0 0l-4 4m4-4H3"
+        />
+      </svg>
+    </span>
+  </button>
+</div>
+
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
@@ -25,8 +24,7 @@ const POPULAR_COUNTRIES = [
   "france",
 ];
 
-const ITEMS_PER_PAGE = 20; 
-
+const ITEMS_PER_PAGE = 20;
 
 const HERO_IMAGES = [
   {
@@ -51,19 +49,28 @@ const HERO_IMAGES = [
   },
 ];
 
+function AlphabeticalPagination({
+  selectedLetter,
+  onLetterSelect,
+  availableLetters,
+}) {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-function AlphabeticalPagination({ selectedLetter, onLetterSelect, availableLetters }) {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  
   return (
-    <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-30 bg-white/90 backdrop-blur-sm rounded-xl p-0 shadow-lg "style={{ background:"transparent"} }>
-      <div className="flex flex-col space-y-1 max-h-96 overflow-y-auto" style={{
-        scrollbarWidth: 'thin',
-        scrollbarColor: '#d1d5db transparent',
-        WebkitScrollbar: {
-          width: '4px'
-        }
-      }}>
+    <div
+      className="fixed right-4 top-1/2 transform -translate-y-1/2 z-30 bg-white/90 backdrop-blur-sm rounded-xl p-0 shadow-lg "
+      style={{ background: "transparent" }}
+    >
+      <div
+        className="flex flex-col space-y-1 max-h-96 overflow-y-auto"
+        style={{
+          scrollbarWidth: "thin",
+          scrollbarColor: "#d1d5db transparent",
+          WebkitScrollbar: {
+            width: "4px",
+          },
+        }}
+      >
         <style jsx>{`
           div::-webkit-scrollbar {
             width: 4px;
@@ -80,11 +87,11 @@ function AlphabeticalPagination({ selectedLetter, onLetterSelect, availableLette
           }
         `}</style>
         <button
-          onClick={() => onLetterSelect('ALL')}
+          onClick={() => onLetterSelect("ALL")}
           className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-            selectedLetter === 'ALL'
-              ? 'bg-blue-500 text-white shadow-md'
-              : 'text-gray-600 hover:bg-gray-100'
+            selectedLetter === "ALL"
+              ? "bg-blue-500 text-white shadow-md"
+              : "text-gray-600 hover:bg-gray-100"
           }`}
         >
           ALL
@@ -92,7 +99,7 @@ function AlphabeticalPagination({ selectedLetter, onLetterSelect, availableLette
         {alphabet.map((letter) => {
           const isAvailable = availableLetters.has(letter);
           const isSelected = selectedLetter === letter;
-          
+
           return (
             <button
               key={letter}
@@ -100,10 +107,10 @@ function AlphabeticalPagination({ selectedLetter, onLetterSelect, availableLette
               disabled={!isAvailable}
               className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                 isSelected
-                  ? 'bg-blue-500 text-white shadow-md'
+                  ? "bg-blue-500 text-white shadow-md"
                   : isAvailable
-                  ? 'text-gray-700 hover:bg-gray-100'
-                  : 'text-gray-300 cursor-not-allowed'
+                  ? "text-gray-700 hover:bg-gray-100"
+                  : "text-gray-300 cursor-not-allowed"
               }`}
             >
               {letter}
@@ -115,10 +122,9 @@ function AlphabeticalPagination({ selectedLetter, onLetterSelect, availableLette
   );
 }
 
-
 function LoadMoreButton({ onClick, isLoading, hasMore }) {
   if (!hasMore) return null;
-  
+
   return (
     <div className="flex justify-center mt-8">
       <button
@@ -132,13 +138,12 @@ function LoadMoreButton({ onClick, isLoading, hasMore }) {
             <span>Loading...</span>
           </div>
         ) : (
-          'Load More Countries'
+          "Load More Countries"
         )}
       </button>
     </div>
   );
 }
-
 
 function HeroSlideshow() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -208,7 +213,6 @@ function HeroSlideshow() {
   );
 }
 
-
 function CountriesGridSkeleton() {
   return (
     <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -243,35 +247,32 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [selectedLetter, setSelectedLetter] = useState('ALL');
+  const [selectedLetter, setSelectedLetter] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const heroRef = useRef(null);
   const searchRef = useRef(null);
 
-
   const filteredCountries = useMemo(() => {
     let filtered = countryList;
-      
+
     if (searchTerm.trim()) {
       filtered = filtered.filter((c) =>
         c.countryName.toLowerCase().includes(searchTerm.trim().toLowerCase())
       );
     }
 
-   
-    if (selectedLetter !== 'ALL') {
-      filtered = filtered.filter((c) =>
-        c.countryName.charAt(0).toUpperCase() === selectedLetter
+    if (selectedLetter !== "ALL") {
+      filtered = filtered.filter(
+        (c) => c.countryName.charAt(0).toUpperCase() === selectedLetter
       );
     }
 
     return filtered;
   }, [countryList, searchTerm, selectedLetter]);
 
-
   const availableLetters = useMemo(() => {
     const letters = new Set();
-    countryList.forEach(country => {
+    countryList.forEach((country) => {
       letters.add(country.countryName.charAt(0).toUpperCase());
     });
     return letters;
@@ -301,8 +302,10 @@ function App() {
   useEffect(() => {
     fetchCountries();
   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-  // Update displayed countries when filters change
   useEffect(() => {
     setCurrentPage(1);
     updateDisplayedCountries(1);
@@ -318,32 +321,34 @@ function App() {
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  const updateDisplayedCountries = useCallback((page) => {
-    const startIndex = 0;
-    const endIndex = page * ITEMS_PER_PAGE;
-    setDisplayedCountries(filteredCountries.slice(startIndex, endIndex));
-  }, [filteredCountries]);
+  const updateDisplayedCountries = useCallback(
+    (page) => {
+      const startIndex = 0;
+      const endIndex = page * ITEMS_PER_PAGE;
+      setDisplayedCountries(filteredCountries.slice(startIndex, endIndex));
+    },
+    [filteredCountries]
+  );
 
   function sortCountriesByPopularity(countries) {
     return [...countries].sort((a, b) => {
       // First sort by popularity
       const aPopular = POPULAR_COUNTRIES.includes(a.countryName.toLowerCase());
       const bPopular = POPULAR_COUNTRIES.includes(b.countryName.toLowerCase());
-      
+
       if (aPopular && !bPopular) return -1;
       if (!aPopular && bPopular) return 1;
-  
+
       return a.countryName.localeCompare(b.countryName);
     });
   }
 
   async function fetchCountries() {
     try {
-    
       const cacheKey = "all_countries";
       if (countryCache.has(cacheKey)) {
         const cachedData = countryCache.get(cacheKey);
-        
+
         if (Date.now() - cachedData.timestamp < 24 * 60 * 60 * 1000) {
           setCountryList(cachedData.sorted);
           setPopularCountries(cachedData.popular);
@@ -390,7 +395,7 @@ function App() {
 
   const handleLetterSelect = useCallback((letter) => {
     setSelectedLetter(letter);
-    setSearchTerm(''); // Clear search when selecting a letter
+    setSearchTerm(""); // Clear search when selecting a letter
   }, []);
 
   function handleOnBuy(countryName) {
@@ -407,14 +412,12 @@ function App() {
         {/* Background Slideshow */}
         <HeroSlideshow />
 
-        {/* Animated Background Elements */}
         <div className="absolute inset-0 pointer-events-none z-10">
           <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/10 to-purple-600/10 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-purple-400/10 to-pink-600/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-indigo-400/5 to-cyan-600/5 rounded-full blur-3xl animate-pulse delay-500"></div>
         </div>
 
-        {/* Floating Elements */}
         <div className="absolute top-10 left-1/4 w-2 h-2 bg-white/80 rounded-full animate-bounce delay-100 z-20"></div>
         <div className="absolute top-20 right-1/4 w-3 h-3 bg-white/80 rounded-full animate-bounce delay-300 z-20"></div>
         <div className="absolute bottom-20 left-1/3 w-2 h-2 bg-white/80 rounded-full animate-bounce delay-500 z-20"></div>
@@ -500,6 +503,17 @@ function App() {
         </section>
       )}
 
+      <section className="relative py-16 px-6 md:px-12 lg:px-20 bg-white">
+        <div className="border-2 border-orange-500 rounded-xl p-8 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg">
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-orange-50 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-orange-50 to-transparent z-10 pointer-events-none"></div>
+
+            <RegionWiseESIM jsx={true} />
+          </div>
+        </div>
+      </section>
+
       {/* Search and Full List Section */}
       <section className="py-16 px-6 md:px-12 lg:px-20 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative">
         <div className="relative py-20 px-6 md:px-12 lg:px-20 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 overflow-hidden border-2 border-white/20 rounded-3xl shadow-lg">
@@ -513,17 +527,50 @@ function App() {
                 strokeWidth="2"
                 className="text-white animate-pulse"
               />
-              <circle cx="200" cy="200" r="3" fill="currentColor" className="text-blue-300 animate-pulse" />
-              <circle cx="400" cy="180" r="3" fill="currentColor" className="text-purple-300 animate-pulse" style={{ animationDelay: "1s" }} />
-              <circle cx="600" cy="160" r="3" fill="currentColor" className="text-indigo-300 animate-pulse" style={{ animationDelay: "2s" }} />
-              <circle cx="800" cy="140" r="3" fill="currentColor" className="text-cyan-300 animate-pulse" style={{ animationDelay: "0.5s" }} />
+              <circle
+                cx="200"
+                cy="200"
+                r="3"
+                fill="currentColor"
+                className="text-blue-300 animate-pulse"
+              />
+              <circle
+                cx="400"
+                cy="180"
+                r="3"
+                fill="currentColor"
+                className="text-purple-300 animate-pulse"
+                style={{ animationDelay: "1s" }}
+              />
+              <circle
+                cx="600"
+                cy="160"
+                r="3"
+                fill="currentColor"
+                className="text-indigo-300 animate-pulse"
+                style={{ animationDelay: "2s" }}
+              />
+              <circle
+                cx="800"
+                cy="140"
+                r="3"
+                fill="currentColor"
+                className="text-cyan-300 animate-pulse"
+                style={{ animationDelay: "0.5s" }}
+              />
             </svg>
           </div>
 
           {/* Glowing Orbs */}
           <div className="absolute top-20 left-20 w-4 h-4 bg-blue-400 rounded-full animate-ping"></div>
-          <div className="absolute bottom-32 right-32 w-6 h-6 bg-purple-400 rounded-full animate-ping" style={{ animationDelay: "1s" }}></div>
-          <div className="absolute top-1/2 left-1/4 w-3 h-3 bg-cyan-400 rounded-full animate-ping" style={{ animationDelay: "2s" }}></div>
+          <div
+            className="absolute bottom-32 right-32 w-6 h-6 bg-purple-400 rounded-full animate-ping"
+            style={{ animationDelay: "1s" }}
+          ></div>
+          <div
+            className="absolute top-1/2 left-1/4 w-3 h-3 bg-cyan-400 rounded-full animate-ping"
+            style={{ animationDelay: "2s" }}
+          ></div>
 
           <div className="relative z-10">
             <div className="text-center mb-12">
@@ -563,7 +610,6 @@ function App() {
           </div>
         </div>
 
-
         <AlphabeticalPagination
           selectedLetter={selectedLetter}
           onLetterSelect={handleLetterSelect}
@@ -572,13 +618,15 @@ function App() {
 
         <div className="mt-8 mb-4 text-center">
           <p className="text-gray-600">
-            {selectedLetter === 'ALL' ? 'All countries' : `Countries starting with "${selectedLetter}"`}
-            {searchTerm && ` matching "${searchTerm}"`}
-            {' '}({filteredCountries.length} {filteredCountries.length === 1 ? 'country' : 'countries'})
+            {selectedLetter === "ALL"
+              ? "All countries"
+              : `Countries starting with "${selectedLetter}"`}
+            {searchTerm && ` matching "${searchTerm}"`} (
+            {filteredCountries.length}{" "}
+            {filteredCountries.length === 1 ? "country" : "countries"})
           </p>
         </div>
 
-      
         <div className="relative">
           {isLoading ? (
             <CountriesGridSkeleton />
@@ -596,7 +644,7 @@ function App() {
                   />
                 ))}
               </div>
-           
+
               <LoadMoreButton
                 onClick={handleLoadMore}
                 isLoading={isLoadingMore}
@@ -605,7 +653,6 @@ function App() {
             </>
           )}
 
-
           {!isLoading && filteredCountries.length === 0 && (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
@@ -613,7 +660,9 @@ function App() {
                 No countries found
               </h3>
               <p className="text-gray-600">
-                {searchTerm ? 'Try adjusting your search term' : 'Try selecting a different letter'}
+                {searchTerm
+                  ? "Try adjusting your search term"
+                  : "Try selecting a different letter"}
               </p>
             </div>
           )}

@@ -40,7 +40,7 @@ export default function Cashfree() {
 console.log("Order Created:", orderCreated);
   const initializeCashfree = async () => {
     try {
-      const cashfreeInstance = await load({ mode: "sandbox" });
+      const cashfreeInstance = await load({ mode: "production" });
       setCashfree(cashfreeInstance);
       return cashfreeInstance;
     } catch (error) {

@@ -1,90 +1,188 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Globe, Wifi, Calendar, MapPin, Star, ShoppingCart } from 'lucide-react';
-import axios from 'axios';
-
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  Search,
+  Globe,
+  Wifi,
+  Calendar,
+  MapPin,
+  Star,
+  ShoppingCart,
+  Filter,
+  Users,
+} from "lucide-react";
+import EsimCountryCard from "../utils/EsimCountryCard";
+import { useNavigate } from "react-router-dom";
 
 const regionConfig = {
-  'Asia': { color: 'from-green-400 to-emerald-600', icon: '🌏', bgColor: 'bg-green-50' },
-  'Europe': { color: 'from-blue-400 to-indigo-600', icon: '🏰', bgColor: 'bg-blue-50' },
-  'North America': { color: 'from-purple-400 to-violet-600', icon: '🗽', bgColor: 'bg-purple-50' },
-  'South America': { color: 'from-orange-400 to-red-600', icon: '🏔️', bgColor: 'bg-orange-50' },
-  'Africa': { color: 'from-yellow-400 to-orange-600', icon: '🦁', bgColor: 'bg-yellow-50' },
-  'Middle East': { color: 'from-teal-400 to-cyan-600', icon: '🕌', bgColor: 'bg-teal-50' },
-  'Oceania': { color: 'from-pink-400 to-rose-600', icon: '🏝️', bgColor: 'bg-pink-50' }
+  Asia: {
+    color: "from-green-400 to-emerald-600",
+    icon: "🌏",
+    bgColor: "bg-green-50",
+  },
+  Europe: {
+    color: "from-blue-400 to-indigo-600",
+    icon: "🏰",
+    bgColor: "bg-blue-50",
+  },
+  "North America": {
+    color: "from-purple-400 to-violet-600",
+    icon: "🗽",
+    bgColor: "bg-purple-50",
+  },
+  "South America": {
+    color: "from-orange-400 to-red-600",
+    icon: "🏔️",
+    bgColor: "bg-orange-50",
+  },
+  LATAM: {
+    color: "from-orange-400 to-red-600",
+    icon: "🏔️",
+    bgColor: "bg-orange-50",
+  },
+  Africa: {
+    color: "from-yellow-400 to-orange-600",
+    icon: "🦁",
+    bgColor: "bg-yellow-50",
+  },
+  "Middle East": {
+    color: "from-teal-400 to-cyan-600",
+    icon: "🕌",
+    bgColor: "bg-teal-50",
+  },
+  Oceania: {
+    color: "from-pink-400 to-rose-600",
+    icon: "🏝️",
+    bgColor: "bg-pink-50",
+  },
+  Caribbean: {
+    color: "from-cyan-400 to-blue-600",
+    icon: "🏖️",
+    bgColor: "bg-cyan-50",
+  },
+  GLOBAL: {
+    color: "from-teal-400 to-blue-600",
+    icon: "🏖️",
+    bgColor: "bg-cyan-50",
+  },
+  LATM: {
+    color: "from-cyan-400 to-blue-600",
+    icon: "🏖️",
+    bgColor: "bg-cyan-50",
+  },
+  "Eastern Europe": {
+    color: "from-cyan-400 to-blue-600",
+    icon: "🏖️",
+    bgColor: "bg-cyan-50",
+  },
+  Unknown: {
+    color: "from-cyan-400 to-blue-600",
+    icon: "🏖️",
+    bgColor: "bg-cyan-50",
+  },
 };
 
-// Country flag emojis mapping
-const countryFlags = {
-  'AE': '🇦🇪', 'AF': '🇦🇫', 'AL': '🇦🇱', 'AM': '🇦🇲', 'AR': '🇦🇷', 'AT': '🇦🇹', 'AU': '🇦🇺', 'AZ': '🇦🇿',
-  'BA': '🇧🇦', 'BD': '🇧🇩', 'BE': '🇧🇪', 'BG': '🇧🇬', 'BH': '🇧🇭', 'BR': '🇧🇷', 'BY': '🇧🇾',
-  'CA': '🇨🇦', 'CH': '🇨🇭', 'CL': '🇨🇱', 'CN': '🇨🇳', 'CO': '🇨🇴', 'CR': '🇨🇷', 'CZ': '🇨🇿',
-  'DE': '🇩🇪', 'DK': '🇩🇰', 'EE': '🇪🇪', 'EG': '🇪🇬', 'ES': '🇪🇸', 'FI': '🇫🇮', 'FR': '🇫🇷',
-  'GB': '🇬🇧', 'GE': '🇬🇪', 'GR': '🇬🇷', 'GT': '🇬🇹', 'HK': '🇭🇰', 'HR': '🇭🇷', 'HU': '🇭🇺',
-  'ID': '🇮🇩', 'IE': '🇮🇪', 'IL': '🇮🇱', 'IN': '🇮🇳', 'IQ': '🇮🇶', 'IR': '🇮🇷', 'IS': '🇮🇸', 'IT': '🇮🇹',
-  'JO': '🇯🇴', 'JP': '🇯🇵', 'KE': '🇰🇪', 'KG': '🇰🇬', 'KH': '🇰🇭', 'KR': '🇰🇷', 'KW': '🇰🇼', 'KZ': '🇰🇿',
-  'LB': '🇱🇧', 'LK': '🇱🇰', 'LT': '🇱🇹', 'LU': '🇱🇺', 'LV': '🇱🇻', 'MA': '🇲🇦', 'MD': '🇲🇩', 'ME': '🇲🇪',
-  'MK': '🇲🇰', 'MM': '🇲🇲', 'MN': '🇲🇳', 'MX': '🇲🇽', 'MY': '🇲🇾', 'NL': '🇳🇱', 'NO': '🇳🇴', 'NP': '🇳🇵',
-  'NZ': '🇳🇿', 'OM': '🇴🇲', 'PE': '🇵🇪', 'PH': '🇵🇭', 'PK': '🇵🇰', 'PL': '🇵🇱', 'PT': '🇵🇹',
-  'QA': '🇶🇦', 'RO': '🇷🇴', 'RS': '🇷🇸', 'RU': '🇷🇺', 'SA': '🇸🇦', 'SE': '🇸🇪', 'SG': '🇸🇬', 'SI': '🇸🇮',
-  'SK': '🇸🇰', 'TH': '🇹🇭', 'TJ': '🇹🇯', 'TM': '🇹🇲', 'TN': '🇹🇳', 'TR': '🇹🇷', 'TW': '🇹🇼', 'TZ': '🇹🇿',
-  'UA': '🇺🇦', 'US': '🇺🇸', 'UY': '🇺🇾', 'UZ': '🇺🇿', 'VE': '🇻🇪', 'VN': '🇻🇳', 'YE': '🇾🇪', 'ZA': '🇿🇦'
-};
-
-function RegionWiseESIM() {
+function RegionalESIM() {
   const [esimData, setEsimData] = useState([]);
-  const [selectedRegion, setSelectedRegion] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRegion, setSelectedRegion] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("name");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [priceRange, setPriceRange] = useState("all");
+  const [dataRange, setDataRange] = useState("all");
   const [loading, setLoading] = useState(true);
-
-  // Fetch data from API
+  const navigate = useNavigate();
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRegionalPlans = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/product/get-all-product`);
-        console.log("all products data:", response.data);
-        // Extract the data array from the response
-        setEsimData(response.data.data || []);
+        setLoading(true);
+
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_URL}/product/get-regional-product`
+        );
+        const data = await response.json();
+        console.log("Regional Plans API Response:", data);
+
+        const regionalPlans = (data.data || []).filter(
+          (plan) =>
+            plan.isregional === true ||
+            plan.planType?.toLowerCase().includes("regional") ||
+            plan.region
+        );
+
+        console.log("Filtered Regional Plans:", regionalPlans);
+        setEsimData(regionalPlans);
+        const plans = data.data;
+        const regionCounts = plans.reduce((acc, plan) => {
+          const region = plan.region || "Unknown";
+          acc[region] = (acc[region] || 0) + 1;
+          return acc;
+        }, {});
+
+        console.log(regionCounts);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching products data:', error);
+        console.error("Error fetching regional plans:", error);
         setLoading(false);
       }
     };
 
-    fetchData();
+    fetchRegionalPlans();
   }, []);
+  function handleOnBuy(countryName) {
+    navigate(`/products/${countryName}`);
+  }
+  const extractPrice = (priceString) => {
+    if (!priceString) return 0;
+    const match = priceString.toString().match(/[\d,]+\.?\d*/);
+    return match ? parseFloat(match[0].replace(",", "")) : 0;
+  };
 
-  // Group data by regions
+  const extractDataValue = (dataString) => {
+    if (!dataString) return 0;
+    if (
+      dataString === "Unlimited" ||
+      dataString.toLowerCase().includes("unlimited")
+    )
+      return 999;
+    const match = dataString.toString().match(/[\d,]+\.?\d*/);
+    return match ? parseFloat(match[0].replace(",", "")) : 0;
+  };
+
+  const extractValidityDays = (validityString) => {
+    if (!validityString) return 0;
+    const match = validityString.toString().match(/[\d,]+\.?\d*/);
+    return match ? parseFloat(match[0].replace(",", "")) : 0;
+  };
+
   const regionData = useMemo(() => {
     const grouped = {};
-    
-    esimData.forEach(plan => {
-      const region = plan.region || 'Other';
+
+    esimData.forEach((plan) => {
+      const region = plan.region || "Other";
       if (!grouped[region]) {
         grouped[region] = [];
       }
       grouped[region].push(plan);
     });
-    
+
     return grouped;
   }, [esimData]);
 
-  // Filter data based on search and selected region
-  const filteredData = useMemo(() => {
-    let filtered = regionData;
-    
-    if (selectedRegion !== 'All') {
+  const filteredAndSortedData = useMemo(() => {
+    let filtered = { ...regionData };
+
+    if (selectedRegion !== "All") {
       filtered = { [selectedRegion]: regionData[selectedRegion] || [] };
     }
-    
+
     if (searchTerm) {
       const searchFiltered = {};
-      Object.keys(filtered).forEach(region => {
-        const matchingPlans = filtered[region].filter(plan => 
-          plan.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          plan.countries.some(country => 
-            country.countryName.toLowerCase().includes(searchTerm.toLowerCase())
-          )
+      Object.keys(filtered).forEach((region) => {
+        const matchingPlans = filtered[region].filter(
+          (plan) =>
+            plan.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            plan.region?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            plan.planType?.toLowerCase().includes(searchTerm.toLowerCase())
         );
         if (matchingPlans.length > 0) {
           searchFiltered[region] = matchingPlans;
@@ -92,23 +190,116 @@ function RegionWiseESIM() {
       });
       filtered = searchFiltered;
     }
-    
+
+    // Filter by price range
+    if (priceRange !== "all") {
+      const priceFiltered = {};
+      Object.keys(filtered).forEach((region) => {
+        const matchingPlans = filtered[region].filter((plan) => {
+          const price = extractPrice(plan.price);
+          switch (priceRange) {
+            case "low":
+              return price < 1000;
+            case "medium":
+              return price >= 1000 && price < 3000;
+            case "high":
+              return price >= 3000;
+            default:
+              return true;
+          }
+        });
+        if (matchingPlans.length > 0) {
+          priceFiltered[region] = matchingPlans;
+        }
+      });
+      filtered = priceFiltered;
+    }
+
+    if (dataRange !== "all") {
+      const dataFiltered = {};
+      Object.keys(filtered).forEach((region) => {
+        const matchingPlans = filtered[region].filter((plan) => {
+          const dataValue = extractDataValue(plan.data);
+          switch (dataRange) {
+            case "low":
+              return dataValue <= 5;
+            case "medium":
+              return dataValue > 5 && dataValue <= 20;
+            case "high":
+              return dataValue > 20 || dataValue === 999;
+            default:
+              return true;
+          }
+        });
+        if (matchingPlans.length > 0) {
+          dataFiltered[region] = matchingPlans;
+        }
+      });
+      filtered = dataFiltered;
+    }
+
+    Object.keys(filtered).forEach((region) => {
+      filtered[region].sort((a, b) => {
+        let aVal, bVal;
+        switch (sortBy) {
+          case "price":
+            aVal = extractPrice(a.price);
+            bVal = extractPrice(b.price);
+            break;
+          case "data":
+            aVal = extractDataValue(a.data);
+            bVal = extractDataValue(b.data);
+            break;
+          case "validity":
+            aVal = extractValidityDays(a.validity);
+            bVal = extractValidityDays(b.validity);
+            break;
+          default:
+            aVal = (a.name || "").toLowerCase();
+            bVal = (b.name || "").toLowerCase();
+            break;
+        }
+
+        if (sortOrder === "asc") {
+          return aVal > bVal ? 1 : -1;
+        } else {
+          return aVal < bVal ? 1 : -1;
+        }
+      });
+    });
+
     return filtered;
-  }, [regionData, selectedRegion, searchTerm]);
+  }, [
+    regionData,
+    selectedRegion,
+    searchTerm,
+    sortBy,
+    sortOrder,
+    priceRange,
+    dataRange,
+  ]);
 
   const regions = Object.keys(regionData);
-  const totalPlans = esimData.length;
-const totalCountries = esimData.reduce((acc, plan) => acc + (plan.countries?.length || 0), 0);
+  console.log(" Regional Data:", regions);
+  const totalRegionalPlans = esimData.length;
 
+  const dataStats = useMemo(() => {
+    const allDataValues = esimData
+      .map((plan) => extractDataValue(plan.data))
+      .filter((val) => val > 0);
+    const minData = Math.min(...allDataValues);
+    const maxData = Math.max(...allDataValues.filter((val) => val !== 999));
+    return { minData, maxData };
+  }, [esimData]);
 
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto p-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded-lg mb-6 w-1/3"></div>
+          <div className="h-8 bg-gray-200 rounded-lg mb-6 w-1/2"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 shadow-lg">
+              <div key={i} className="bg-white rounded-xl p-6 shadow-lg h-80">
                 <div className="h-4 bg-gray-200 rounded mb-4"></div>
                 <div className="h-20 bg-gray-200 rounded mb-4"></div>
                 <div className="h-4 bg-gray-200 rounded w-2/3"></div>
@@ -125,80 +316,176 @@ const totalCountries = esimData.reduce((acc, plan) => acc + (plan.countries?.len
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-2">
-          🌍 eSIM Plans by Region
+          🌍 Regional eSIM Plans
         </h1>
         <p className="text-gray-600 text-lg">
-          Discover data plans organized by geographical regions
+          Stay connected across entire regions with our flexible data plans
         </p>
-        
+
         {/* Stats */}
         <div className="flex flex-wrap gap-4 mt-4">
           <div className="bg-white px-4 py-2 rounded-lg shadow-sm border">
-            <span className="text-sm text-gray-500">Total Plans</span>
-            <div className="font-bold text-lg text-blue-600">{totalPlans}</div>
+            <span className="text-sm text-gray-500">Regional Plans</span>
+            <div className="font-bold text-lg text-blue-600">
+              {totalRegionalPlans}
+            </div>
           </div>
           <div className="bg-white px-4 py-2 rounded-lg shadow-sm border">
-            <span className="text-sm text-gray-500">Countries</span>
-            <div className="font-bold text-lg text-green-600">{totalCountries}</div>
+            <span className="text-sm text-gray-500">Regions Available</span>
+            <div className="font-bold text-lg text-purple-600">
+              {regions.length}
+            </div>
           </div>
           <div className="bg-white px-4 py-2 rounded-lg shadow-sm border">
-            <span className="text-sm text-gray-500">Regions</span>
-            <div className="font-bold text-lg text-purple-600">{regions.length}</div>
+            <span className="text-sm text-gray-500">Plan Type</span>
+            <div className="font-bold text-lg text-green-600">
+              Regional eSIM
+            </div>
           </div>
+          {dataStats.maxData > 0 && (
+            <div className="bg-white px-4 py-2 rounded-lg shadow-sm border">
+              <span className="text-sm text-gray-500">Data Range</span>
+              <div className="font-bold text-lg text-orange-600">
+                {dataStats.minData}GB - {dataStats.maxData}GB
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Filters */}
       <div className="mb-8 bg-white rounded-xl shadow-lg p-6">
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Search by country or plan name..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+        <div className="flex flex-col space-y-4">
+          {/* Search and Region Filter */}
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search regional plans..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div className="lg:w-64">
+              <select
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value)}
+                className="w-full py-3 px-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="All">All Regions</option>
+                {regions.map((region) => (
+                  <option key={region} value={region}>
+                    {region}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          
-          {/* Region Filter */}
-          <div className="lg:w-64">
-            <select
-              value={selectedRegion}
-              onChange={(e) => setSelectedRegion(e.target.value)}
-              className="w-full py-3 px-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="All">All Regions</option>
-              {regions.map(region => (
-                <option key={region} value={region}>{region}</option>
-              ))}
-            </select>
+
+          {/* Advanced Filters */}
+          <div className="flex flex-wrap gap-4">
+            <div className="flex items-center space-x-2">
+              <Filter className="w-4 h-4 text-gray-500" />
+              <span className="text-sm font-medium text-gray-700">
+                Sort by:
+              </span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="name">Name</option>
+                <option value="price">Price</option>
+                <option value="data">Data Amount</option>
+                <option value="validity">Validity Days</option>
+              </select>
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="asc">Low to High</option>
+                <option value="desc">High to Low</option>
+              </select>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <span className="text-sm font-medium text-gray-700">
+                Price Range:
+              </span>
+              <select
+                value={priceRange}
+                onChange={(e) => setPriceRange(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">All Prices</option>
+                <option value="low">Under ₹1000</option>
+                <option value="medium">₹1000 - ₹3000</option>
+                <option value="high">Above ₹3000</option>
+              </select>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <span className="text-sm font-medium text-gray-700">
+                Data Amount:
+              </span>
+              <select
+                value={dataRange}
+                onChange={(e) => setDataRange(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">All Data Plans</option>
+                <option value="low">5GB or less</option>
+                <option value="medium">5GB - 20GB</option>
+                <option value="high">20GB+ or Unlimited</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Region Cards */}
       <div className="space-y-8">
-        {Object.keys(filteredData).map(region => (
-          <div key={region} className="bg-white rounded-xl shadow-lg overflow-hidden">
+        {Object.keys(filteredAndSortedData).map((region) => (
+          <div
+            key={region}
+            className="bg-white rounded-xl shadow-lg overflow-hidden"
+          >
             {/* Region Header */}
-            <div className={`bg-gradient-to-r ${regionConfig[region]?.color || 'from-gray-400 to-gray-600'} p-6`}>
+            <div
+              className={`bg-gradient-to-r ${
+                regionConfig[region]?.color || "from-gray-400 to-gray-600"
+              } p-6`}
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <span className="text-3xl">{regionConfig[region]?.icon || '🌐'}</span>
+                  <span className="text-3xl">
+                    {regionConfig[region]?.icon || "🌐"}
+                  </span>
                   <div>
                     <h2 className="text-2xl font-bold text-white">{region}</h2>
-                    <p className="text-white/90">
-                      {filteredData[region].length} plan{filteredData[region].length !== 1 ? 's' : ''} available
+                    <p className="text-white/90 flex items-center space-x-1">
+                      <Users className="w-4 h-4" />
+                      <span>
+                        {filteredAndSortedData[region].length} regional plan
+                        {filteredAndSortedData[region].length !== 1 ? "s" : ""}
+                      </span>
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-white/90 text-sm">Total Countries</div>
+                  <div className="text-white/90 text-sm">Avg. Price</div>
                   <div className="text-2xl font-bold text-white">
-                    {filteredData[region].reduce((acc, plan) => acc + plan.countries.length, 0)}
+                    ₹
+                    {Math.round(
+                      filteredAndSortedData[region].reduce(
+                        (acc, plan) => acc + extractPrice(plan.price),
+                        0
+                      ) / filteredAndSortedData[region].length
+                    )}
                   </div>
                 </div>
               </div>
@@ -207,81 +494,23 @@ const totalCountries = esimData.reduce((acc, plan) => acc + (plan.countries?.len
             {/* Plans Grid */}
             <div className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredData[region].map(plan => (
-                  <div key={plan.localPlanId} className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
-                    {/* Plan Header */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h3 className="font-bold text-lg text-gray-900 mb-1">{plan.name}</h3>
-                        <div className="flex items-center space-x-2 text-sm text-gray-500">
-                          <Wifi className="w-4 h-4" />
-                          <span>{plan.data}GB Data</span>
-                          <Calendar className="w-4 h-4 ml-2" />
-                          <span>{plan.validity} days</span>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-blue-600">{plan.price}</div>
-                        <div className="text-xs text-gray-500">{plan.planType}</div>
-                      </div>
-                    </div>
-
-                    {/* Countries */}
-                    <div className="mb-4">
-                      <div className="flex items-center mb-2">
-                        <MapPin className="w-4 h-4 text-gray-400 mr-1" />
-                        <span className="text-sm font-medium text-gray-700">
-                          {plan.countries.length} {plan.countries.length === 1 ? 'Country' : 'Countries'}
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {plan.countries.slice(0, 4).map(country => (
-                          <span
-                            key={country.countryLocalId}
-                            className="inline-flex items-center px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                          >
-                            <span className="mr-1">{countryFlags[country.countryCode] || '🏳️'}</span>
-                            {country.countryName}
-                          </span>
-                        ))}
-                        {plan.countries.length > 4 && (
-                          <span className="inline-flex items-center px-2 py-1 bg-gray-200 text-gray-600 text-xs rounded-full">
-                            +{plan.countries.length - 4} more
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Plan Features */}
-                    <div className="mb-4">
-                      <div className="flex flex-wrap gap-2">
-                        {plan.isregional && (
-                          <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
-                            <Globe className="w-3 h-3 mr-1" />
-                            Regional
-                          </span>
-                        )}
-                        {plan.globalPlan && (
-                          <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                            <Globe className="w-3 h-3 mr-1" />
-                            Global
-                          </span>
-                        )}
-                        {!plan.rechargeOnly && (
-                          <span className="inline-flex items-center px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">
-                            <Star className="w-3 h-3 mr-1" />
-                            New Line
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Buy Button */}
-                    <button className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center space-x-2">
-                      <ShoppingCart className="w-4 h-4" />
-                      <span>Buy Now</span>
-                    </button>
-                  </div>
+                {filteredAndSortedData[region].map((plan) => (
+                  <EsimCountryCard
+                    key={plan.localPlanId}
+                    country={{
+                      countryName: plan.country || plan.name,
+                      countryCode: plan.countryCode || "us", // fallback
+                    }}
+                    dataLabel={
+                      extractDataValue(plan.data) === 999
+                        ? "Unlimited"
+                        : `${extractDataValue(
+                            plan.data
+                          )}GB / ${extractValidityDays(plan.validity)} days`
+                    }
+                    price={plan.price}
+                    onBuy={handleOnBuy}
+                  />
                 ))}
               </div>
             </div>
@@ -290,15 +519,22 @@ const totalCountries = esimData.reduce((acc, plan) => acc + (plan.countries?.len
       </div>
 
       {/* No Results */}
-      {Object.keys(filteredData).length === 0 && (
+      {Object.keys(filteredAndSortedData).length === 0 && (
         <div className="text-center py-12">
-          <div className="text-6xl mb-4">🔍</div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">No plans found</h3>
-          <p className="text-gray-600">Try adjusting your search terms or filters</p>
+          <div className="text-6xl mb-4">🌍</div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">
+            No regional plans found
+          </h3>
+          <p className="text-gray-600 mb-4">
+            Try adjusting your search terms or filters
+          </p>
+          <p className="text-sm text-gray-500">
+            Regional plans offer coverage across entire geographical regions
+          </p>
         </div>
       )}
     </div>
   );
 }
 
-export default RegionWiseESIM;
+export default RegionalESIM;
