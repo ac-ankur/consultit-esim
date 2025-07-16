@@ -1,11 +1,10 @@
-// components/PopularCarousel.jsx
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
 import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
 import EsimCountryCard from '../utils/EsimCountryCard';
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -17,14 +16,13 @@ export default function PopularCarousel({ countries, onBuy }) {
   const [isEnd, setIsEnd] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Handle swiper events
+
   const handleSlideChange = (swiper) => {
     setActiveIndex(swiper.activeIndex);
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
   };
 
-  // Navigation handlers
   const goNext = () => {
     if (swiperRef.current) {
       swiperRef.current.slideNext();
@@ -106,7 +104,7 @@ export default function PopularCarousel({ countries, onBuy }) {
           <ChevronRight className="w-6 h-6" />
         </button>
 
-        {/* Enhanced Swiper */}
+    
         <Swiper
           ref={swiperRef}
           modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}

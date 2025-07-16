@@ -187,10 +187,9 @@ export default function PlanPage() {
                 />
               )}
 
-              {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-              {/* Title on image */}
+            
               <div className="absolute bottom-6 left-6 text-white">
                 <h1 className="text-4xl font-bold mb-2 drop-shadow-lg">
                   {formatCountryName(country)} eSIM

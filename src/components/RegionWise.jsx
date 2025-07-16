@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Globe, Wifi, Calendar, MapPin, Star, ShoppingCart } from 'lucide-react';
 import axios from 'axios';
 
-// Region colors and icons
+
 const regionConfig = {
   'Asia': { color: 'from-green-400 to-emerald-600', icon: '🌏', bgColor: 'bg-green-50' },
   'Europe': { color: 'from-blue-400 to-indigo-600', icon: '🏰', bgColor: 'bg-blue-50' },

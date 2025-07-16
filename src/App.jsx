@@ -1,4 +1,4 @@
-// App.jsx (Enhanced with alphabetical pagination and performance improvements)
+
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
@@ -25,9 +25,9 @@ const POPULAR_COUNTRIES = [
   "france",
 ];
 
-const ITEMS_PER_PAGE = 20; // Show 20 countries per page for better performance
+const ITEMS_PER_PAGE = 20; 
 
-// Hero slideshow images
+
 const HERO_IMAGES = [
   {
     src: heroImage1,
@@ -51,7 +51,7 @@ const HERO_IMAGES = [
   },
 ];
 
-// Alphabetical Pagination Component
+
 function AlphabeticalPagination({ selectedLetter, onLetterSelect, availableLetters }) {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   
@@ -115,7 +115,7 @@ function AlphabeticalPagination({ selectedLetter, onLetterSelect, availableLette
   );
 }
 
-// Load More Button Component
+
 function LoadMoreButton({ onClick, isLoading, hasMore }) {
   if (!hasMore) return null;
   
@@ -139,7 +139,7 @@ function LoadMoreButton({ onClick, isLoading, hasMore }) {
   );
 }
 
-// Hero Background Slideshow Component
+
 function HeroSlideshow() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideshowRef = useRef(null);
@@ -208,7 +208,7 @@ function HeroSlideshow() {
   );
 }
 
-// Skeleton loader for countries grid
+
 function CountriesGridSkeleton() {
   return (
     <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -248,18 +248,17 @@ function App() {
   const heroRef = useRef(null);
   const searchRef = useRef(null);
 
-  // Memoized filtered countries based on search and letter
+
   const filteredCountries = useMemo(() => {
     let filtered = countryList;
-
-    // Apply search filter
+      
     if (searchTerm.trim()) {
       filtered = filtered.filter((c) =>
         c.countryName.toLowerCase().includes(searchTerm.trim().toLowerCase())
       );
     }
 
-    // Apply letter filter
+   
     if (selectedLetter !== 'ALL') {
       filtered = filtered.filter((c) =>
         c.countryName.charAt(0).toUpperCase() === selectedLetter
@@ -269,7 +268,7 @@ function App() {
     return filtered;
   }, [countryList, searchTerm, selectedLetter]);
 
-  // Memoized available letters
+
   const availableLetters = useMemo(() => {
     const letters = new Set();
     countryList.forEach(country => {
@@ -333,19 +332,18 @@ function App() {
       
       if (aPopular && !bPopular) return -1;
       if (!aPopular && bPopular) return 1;
-      
-      // Then sort alphabetically
+  
       return a.countryName.localeCompare(b.countryName);
     });
   }
 
   async function fetchCountries() {
     try {
-      // Check cache first
+    
       const cacheKey = "all_countries";
       if (countryCache.has(cacheKey)) {
         const cachedData = countryCache.get(cacheKey);
-        // Check if cache is still valid (24 hours)
+        
         if (Date.now() - cachedData.timestamp < 24 * 60 * 60 * 1000) {
           setCountryList(cachedData.sorted);
           setPopularCountries(cachedData.popular);
@@ -565,14 +563,13 @@ function App() {
           </div>
         </div>
 
-        {/* Alphabetical Pagination */}
+
         <AlphabeticalPagination
           selectedLetter={selectedLetter}
           onLetterSelect={handleLetterSelect}
           availableLetters={availableLetters}
         />
-{/* <RegionWiseESIM jsx={true}/> */}
-        {/* Filter Info */}
+
         <div className="mt-8 mb-4 text-center">
           <p className="text-gray-600">
             {selectedLetter === 'ALL' ? 'All countries' : `Countries starting with "${selectedLetter}"`}
@@ -581,7 +578,7 @@ function App() {
           </p>
         </div>
 
-        {/* Countries Grid */}
+      
         <div className="relative">
           {isLoading ? (
             <CountriesGridSkeleton />
@@ -599,8 +596,7 @@ function App() {
                   />
                 ))}
               </div>
-              
-              {/* Load More Button */}
+           
               <LoadMoreButton
                 onClick={handleLoadMore}
                 isLoading={isLoadingMore}
@@ -609,7 +605,7 @@ function App() {
             </>
           )}
 
-          {/* No Results State */}
+
           {!isLoading && filteredCountries.length === 0 && (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
