@@ -24,8 +24,9 @@ const POPULAR_COUNTRIES = [
   "france",
 ];
 
-const ITEMS_PER_PAGE = 20;
+const ITEMS_PER_PAGE = 20; // Show 20 countries per page for better performance
 
+// Hero slideshow images
 const HERO_IMAGES = [
   {
     src: heroImage1,
@@ -49,6 +50,7 @@ const HERO_IMAGES = [
   },
 ];
 
+// Alphabetical Pagination Component
 function AlphabeticalPagination({
   selectedLetter,
   onLetterSelect,
@@ -122,6 +124,7 @@ function AlphabeticalPagination({
   );
 }
 
+// Load More Button Component
 function LoadMoreButton({ onClick, isLoading, hasMore }) {
   if (!hasMore) return null;
 
@@ -130,6 +133,7 @@ function LoadMoreButton({ onClick, isLoading, hasMore }) {
       <button
         onClick={onClick}
         disabled={isLoading}
+        style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
         className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading ? (
@@ -145,6 +149,7 @@ function LoadMoreButton({ onClick, isLoading, hasMore }) {
   );
 }
 
+// Hero Background Slideshow Component
 function HeroSlideshow() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideshowRef = useRef(null);
@@ -213,6 +218,7 @@ function HeroSlideshow() {
   );
 }
 
+// Skeleton loader for countries grid
 function CountriesGridSkeleton() {
   return (
     <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -236,6 +242,25 @@ function CountriesGridSkeleton() {
   );
 }
 
+const useIsVisible = (ref) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) =>
+      setIsVisible(entry.isIntersecting)
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) observer.observe(currentRef);
+
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, [ref]);
+
+  return isVisible;
+};
+
 function App() {
   const navigate = useNavigate();
   const { user } = useUser();
@@ -251,6 +276,8 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const heroRef = useRef(null);
   const searchRef = useRef(null);
+  const sectionRef = useRef(null);
+  const isSectionVisible = useIsVisible(sectionRef);
 
   const filteredCountries = useMemo(() => {
     let filtered = countryList;
@@ -270,6 +297,7 @@ function App() {
     return filtered;
   }, [countryList, searchTerm, selectedLetter]);
 
+  // Memoized available letters
   const availableLetters = useMemo(() => {
     const letters = new Set();
     countryList.forEach((country) => {
@@ -302,10 +330,8 @@ function App() {
   useEffect(() => {
     fetchCountries();
   }, []);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
+  // Update displayed countries when filters change
   useEffect(() => {
     setCurrentPage(1);
     updateDisplayedCountries(1);
@@ -339,16 +365,18 @@ function App() {
       if (aPopular && !bPopular) return -1;
       if (!aPopular && bPopular) return 1;
 
+      // Then sort alphabetically
       return a.countryName.localeCompare(b.countryName);
     });
   }
 
   async function fetchCountries() {
     try {
+      // Check cache first
       const cacheKey = "all_countries";
       if (countryCache.has(cacheKey)) {
         const cachedData = countryCache.get(cacheKey);
-
+        // Check if cache is still valid (24 hours)
         if (Date.now() - cachedData.timestamp < 24 * 60 * 60 * 1000) {
           setCountryList(cachedData.sorted);
           setPopularCountries(cachedData.popular);
@@ -409,7 +437,6 @@ function App() {
         ref={heroRef}
         className="relative h-screen flex items-center justify-center overflow-hidden"
       >
-        {/* Background Slideshow */}
         <HeroSlideshow />
 
         <div className="absolute inset-0 pointer-events-none z-10">
@@ -418,6 +445,7 @@ function App() {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-indigo-400/5 to-cyan-600/5 rounded-full blur-3xl animate-pulse delay-500"></div>
         </div>
 
+        {/* Floating Elements */}
         <div className="absolute top-10 left-1/4 w-2 h-2 bg-white/80 rounded-full animate-bounce delay-100 z-20"></div>
         <div className="absolute top-20 right-1/4 w-3 h-3 bg-white/80 rounded-full animate-bounce delay-300 z-20"></div>
         <div className="absolute bottom-20 left-1/3 w-2 h-2 bg-white/80 rounded-full animate-bounce delay-500 z-20"></div>
@@ -482,7 +510,7 @@ function App() {
         <section className="relative py-16 px-6 md:px-12 lg:px-20 bg-white">
           <div className="border-2 border-orange-500 rounded-xl p-8 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg">
             <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              <h2 className="text-4xl md:text-5xl font-bold mb-5 bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
                 🔥 Popular Destinations
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -502,9 +530,8 @@ function App() {
           </div>
         </section>
       )}
-
       <section className="relative py-16 px-6 md:px-12 lg:px-20 bg-white">
-        <div className="border-2 border-orange-500 rounded-xl p-8 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg">
+        <div className="border-2 border-blue-500 rounded-xl p-4 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg">
           <div className="relative">
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-orange-50 to-transparent z-10 pointer-events-none"></div>
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-orange-50 to-transparent z-10 pointer-events-none"></div>
@@ -514,10 +541,11 @@ function App() {
         </div>
       </section>
 
-      {/* Search and Full List Section */}
-      <section className="py-16 px-6 md:px-12 lg:px-20 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative">
+      <section
+        ref={sectionRef}
+        className="py-16 px-6 md:px-12 lg:px-20 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative"
+      >
         <div className="relative py-20 px-6 md:px-12 lg:px-20 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 overflow-hidden border-2 border-white/20 rounded-3xl shadow-lg">
-          {/* World Map Background */}
           <div className="absolute inset-0 opacity-10">
             <svg viewBox="0 0 1000 500" className="w-full h-full">
               <path
@@ -610,12 +638,17 @@ function App() {
           </div>
         </div>
 
-        <AlphabeticalPagination
-          selectedLetter={selectedLetter}
-          onLetterSelect={handleLetterSelect}
-          availableLetters={availableLetters}
-        />
-
+        {/* Alphabetical Pagination */}
+        {isSectionVisible && (
+          <AlphabeticalPagination
+            selectedLetter={selectedLetter}
+            onLetterSelect={handleLetterSelect}
+            availableLetters={availableLetters}
+          />
+        )}
+        {/* <RegionWiseESIM jsx={true}/> */}
+        {/* <RegionWiseESIM /> */}
+        {/* Filter Info */}
         <div className="mt-8 mb-4 text-center">
           <p className="text-gray-600">
             {selectedLetter === "ALL"
@@ -627,6 +660,7 @@ function App() {
           </p>
         </div>
 
+        {/* Countries Grid */}
         <div className="relative">
           {isLoading ? (
             <CountriesGridSkeleton />
@@ -638,13 +672,14 @@ function App() {
                     key={`${country.countryCode}-${idx}`}
                     country={country}
                     dataLabel="1 GB to UNLIMITED DATA"
-                    reviews={8}
-                    price={499}
+                    // reviews={8}
+                    // price={499}
                     onBuy={handleOnBuy}
                   />
                 ))}
               </div>
 
+              {/* Load More Button */}
               <LoadMoreButton
                 onClick={handleLoadMore}
                 isLoading={isLoadingMore}
@@ -653,6 +688,7 @@ function App() {
             </>
           )}
 
+          {/* No Results State */}
           {!isLoading && filteredCountries.length === 0 && (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>

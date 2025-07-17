@@ -9,128 +9,104 @@ import {
   ShoppingCart,
   Filter,
   Users,
+  Clock,
+  Database,
 } from "lucide-react";
-import EsimCountryCard from "../utils/EsimCountryCard";
 import { useNavigate } from "react-router-dom";
+import oceanic from "../assets/images/regions/ocenia.jpg";
+import asia from "../assets/images/regions/asia.jpg";
+import europe from "../assets/images/regions/europe.jpg";
+import northAmerica from "../assets/images/regions/northamerica.jpg";
+import latam from "../assets/images/regions/latm.jpg";
+import global from "../assets/images/regions/GLOBAL.jpg";
+import africa from "../assets/images/regions/africa.jpg";
+import caribbean from "../assets/images/regions/caribbean.jpg";
+import middleEast from "../assets/images/regions/middleeast.jpg";
 
 const regionConfig = {
   Asia: {
     color: "from-green-400 to-emerald-600",
     icon: "🌏",
     bgColor: "bg-green-50",
+    image: asia,
   },
   Europe: {
     color: "from-blue-400 to-indigo-600",
     icon: "🏰",
     bgColor: "bg-blue-50",
+    image: europe,
   },
   "North America": {
     color: "from-purple-400 to-violet-600",
     icon: "🗽",
     bgColor: "bg-purple-50",
+    image: northAmerica,
   },
   "South America": {
     color: "from-orange-400 to-red-600",
     icon: "🏔️",
     bgColor: "bg-orange-50",
+    image: latam,
   },
   LATAM: {
     color: "from-orange-400 to-red-600",
     icon: "🏔️",
     bgColor: "bg-orange-50",
+    image: latam,
   },
   Africa: {
     color: "from-yellow-400 to-orange-600",
     icon: "🦁",
     bgColor: "bg-yellow-50",
+    image: africa,
   },
   "Middle East": {
     color: "from-teal-400 to-cyan-600",
     icon: "🕌",
     bgColor: "bg-teal-50",
+    image: middleEast,
   },
   Oceania: {
     color: "from-pink-400 to-rose-600",
     icon: "🏝️",
     bgColor: "bg-pink-50",
+    image: oceanic,
   },
   Caribbean: {
     color: "from-cyan-400 to-blue-600",
     icon: "🏖️",
     bgColor: "bg-cyan-50",
+    image: caribbean,
   },
   GLOBAL: {
     color: "from-teal-400 to-blue-600",
-    icon: "🏖️",
+    icon: "🌍",
     bgColor: "bg-cyan-50",
+    image: global,
   },
   LATM: {
     color: "from-cyan-400 to-blue-600",
     icon: "🏖️",
     bgColor: "bg-cyan-50",
+    image: latam,
   },
   "Eastern Europe": {
     color: "from-cyan-400 to-blue-600",
-    icon: "🏖️",
+    icon: "🏰",
     bgColor: "bg-cyan-50",
   },
   Unknown: {
-    color: "from-cyan-400 to-blue-600",
-    icon: "🏖️",
-    bgColor: "bg-cyan-50",
+    color: "from-gray-400 to-gray-600",
+    icon: "🌐",
+    bgColor: "bg-gray-50",
   },
 };
 
-function RegionalESIM() {
-  const [esimData, setEsimData] = useState([]);
-  const [selectedRegion, setSelectedRegion] = useState("All");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("name");
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [priceRange, setPriceRange] = useState("all");
-  const [dataRange, setDataRange] = useState("all");
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-  useEffect(() => {
-    const fetchRegionalPlans = async () => {
-      try {
-        setLoading(true);
+// New consolidated card component
+const ConsolidatedRegionCard = ({ region, plans, onBuy }) => {
+  const [selectedPlan, setSelectedPlan] = useState(plans[0]);
+  const config = regionConfig[region] || regionConfig.Unknown;
 
-        const response = await fetch(
-          `${import.meta.env.VITE_SERVER_URL}/product/get-regional-product`
-        );
-        const data = await response.json();
-        console.log("Regional Plans API Response:", data);
-
-        const regionalPlans = (data.data || []).filter(
-          (plan) =>
-            plan.isregional === true ||
-            plan.planType?.toLowerCase().includes("regional") ||
-            plan.region
-        );
-
-        console.log("Filtered Regional Plans:", regionalPlans);
-        setEsimData(regionalPlans);
-        const plans = data.data;
-        const regionCounts = plans.reduce((acc, plan) => {
-          const region = plan.region || "Unknown";
-          acc[region] = (acc[region] || 0) + 1;
-          return acc;
-        }, {});
-
-        console.log(regionCounts);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching regional plans:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchRegionalPlans();
-  }, []);
-  function handleOnBuy(countryName) {
-    navigate(`/products/${countryName}`);
-  }
   const extractPrice = (priceString) => {
     if (!priceString) return 0;
     const match = priceString.toString().match(/[\d,]+\.?\d*/);
@@ -154,9 +130,224 @@ function RegionalESIM() {
     return match ? parseFloat(match[0].replace(",", "")) : 0;
   };
 
+  const formatDataDisplay = (dataStr) => {
+    const dataValue = extractDataValue(dataStr);
+    if (dataValue === 999) return "Unlimited";
+    return `${dataValue}GB`;
+  };
+
+  const formatValidityDisplay = (validityStr) => {
+    const days = extractValidityDays(validityStr);
+    if (days === 1) return "1 day";
+    return `${days} days`;
+  };
+
+  const priceRange = useMemo(() => {
+    const prices = plans.map((plan) => extractPrice(plan.price));
+    return {
+      min: Math.min(...prices),
+      max: Math.max(...prices),
+    };
+  }, [plans]);
+
+  return (
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+      {/* Card Header with Region Image */}
+      <div className="relative h-48 overflow-hidden">
+        <img
+          src={config.image}
+          alt={region}
+          className="w-full h-full object-cover"
+        />
+        <div
+          className={`absolute inset-0 bg-gradient-to-t ${config.color} opacity-40`}
+        ></div>
+        <div className="absolute top-4 left-4 flex items-center space-x-2">
+          <span className="text-2xl">{config.icon}</span>
+          <div>
+            <h3 className="text-xl font-bold text-white">{region}</h3>
+            <p className="text-white/90 text-sm">
+              {plans.length} plans available
+            </p>
+          </div>
+        </div>
+        <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1">
+          <span className="text-white text-sm font-medium">
+            ₹{priceRange.min} - ₹{priceRange.max}
+          </span>
+        </div>
+      </div>
+
+      {/* Card Body */}
+      <div className="p-6">
+        {/* Plan Selection Tabs */}
+        <div className="mb-4"style={{border:'1px solid black',borderRadius:'5px',padding:'10px'}}>
+          <h4 className="text-sm font-medium text-gray-700 mb-2">
+            Select Plan:
+          </h4>
+          <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
+            {plans.map((plan, index) => (
+              <button
+                key={plan.localPlanId || index}
+                onClick={() => setSelectedPlan(plan)}
+                className={`p-3 rounded-lg border-2 transition-all duration-200 text-left ${
+                  selectedPlan === plan
+                    ? "border-blue-500 bg-blue-50"
+                    : "border-gray-200 hover:border-gray-300"
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <Database className="w-4 h-4 text-gray-500" />
+                    <span className="font-medium text-gray-900">
+                      {formatDataDisplay(plan.data)}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="w-4 h-4 text-gray-500" />
+                    <span className="text-sm text-gray-600">
+                      {formatValidityDisplay(plan.validity)}
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-1 text-lg font-bold text-blue-600">
+                  ₹{extractPrice(plan.price)}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Selected Plan Details */}
+        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h5 className="font-semibold text-gray-900">Selected Plan</h5>
+              <p className="text-sm text-gray-600">
+                {selectedPlan.name || `${region} Plan`}
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-blue-600">
+                ₹{extractPrice(selectedPlan.price)}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 mt-3">
+            <div className="flex items-center space-x-2">
+              <Database className="w-4 h-4 text-gray-500" />
+              <span className="text-sm text-gray-600">
+                {formatDataDisplay(selectedPlan.data)}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Clock className="w-4 h-4 text-gray-500" />
+              <span className="text-sm text-gray-600">
+                {formatValidityDisplay(selectedPlan.validity)}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Globe className="w-4 h-4 text-gray-500" />
+              <span className="text-sm text-gray-600">Regional Coverage</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Wifi className="w-4 h-4 text-gray-500" />
+              <span className="text-sm text-gray-600">4G/5G Speed</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={() =>
+            onBuy(selectedPlan.country || selectedPlan.name, region)
+          }
+          style={{ cursor: "pointer" }}
+          className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-200 bg-gradient-to-r ${config.color} hover:shadow-lg hover:scale-[1.02] flex items-center justify-center space-x-2`}
+        >
+          <ShoppingCart className="w-5 h-5" />
+          <span>Buy Now</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+function RegionalESIM() {
+  const [esimData, setEsimData] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("name");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [priceRange, setPriceRange] = useState("all");
+  const [dataRange, setDataRange] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchRegionalPlans = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_URL}/product/get-regional-product`
+        );
+        const data = await response.json();
+        console.log("Regional Plans API Response:", data);
+
+        const regionalPlans = (data.data || []).filter(
+          (plan) =>
+            plan.isregional === true ||
+            plan.planType?.toLowerCase().includes("regional") ||
+            plan.region
+        );
+
+        console.log("Filtered Regional Plans:", regionalPlans);
+        setEsimData(regionalPlans);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching regional plans:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchRegionalPlans();
+  }, []);
+
+  function handleOnBuy(countryName, regionName) {
+    navigate(`/products/${countryName}`, {
+      state: {
+        fromRegional: true,
+        regionName: regionName,
+      },
+    });
+  }
+
+  const extractPrice = (priceString) => {
+    if (!priceString) return 0;
+    const match = priceString.toString().match(/[\d,]+\.?\d*/);
+    return match ? parseFloat(match[0].replace(",", "")) : 0;
+  };
+
+  const extractDataValue = (dataString) => {
+    if (!dataString) return 0;
+    if (
+      dataString === "Unlimited" ||
+      dataString.toLowerCase().includes("unlimited")
+    )
+      return 999;
+    const match = dataString.toString().match(/[\d,]+\.?\d*/);
+    return match ? parseFloat(match[0].replace(",", "")) : 0;
+  };
+
+  const extractValidityDays = (validityString) => {
+    if (!validityString) return 0;
+    const match = validityString.toString().match(/[\d,]+\.?\d*/);
+    return match ? parseFloat(match[0].replace(",", "")) : 0;
+  };
+
+  // Group plans by region
   const regionData = useMemo(() => {
     const grouped = {};
-
     esimData.forEach((plan) => {
       const region = plan.region || "Other";
       if (!grouped[region]) {
@@ -164,10 +355,10 @@ function RegionalESIM() {
       }
       grouped[region].push(plan);
     });
-
     return grouped;
   }, [esimData]);
 
+  // Apply filters and sorting
   const filteredAndSortedData = useMemo(() => {
     let filtered = { ...regionData };
 
@@ -191,7 +382,7 @@ function RegionalESIM() {
       filtered = searchFiltered;
     }
 
-    // Filter by price range
+    // Apply price range filter
     if (priceRange !== "all") {
       const priceFiltered = {};
       Object.keys(filtered).forEach((region) => {
@@ -215,6 +406,7 @@ function RegionalESIM() {
       filtered = priceFiltered;
     }
 
+    // Apply data range filter
     if (dataRange !== "all") {
       const dataFiltered = {};
       Object.keys(filtered).forEach((region) => {
@@ -238,6 +430,7 @@ function RegionalESIM() {
       filtered = dataFiltered;
     }
 
+    // Sort plans within each region
     Object.keys(filtered).forEach((region) => {
       filtered[region].sort((a, b) => {
         let aVal, bVal;
@@ -260,11 +453,13 @@ function RegionalESIM() {
             break;
         }
 
-        if (sortOrder === "asc") {
-          return aVal > bVal ? 1 : -1;
-        } else {
-          return aVal < bVal ? 1 : -1;
-        }
+        return sortOrder === "asc"
+          ? aVal > bVal
+            ? 1
+            : -1
+          : aVal < bVal
+          ? 1
+          : -1;
       });
     });
 
@@ -280,7 +475,6 @@ function RegionalESIM() {
   ]);
 
   const regions = Object.keys(regionData);
-  console.log(" Regional Data:", regions);
   const totalRegionalPlans = esimData.length;
 
   const dataStats = useMemo(() => {
@@ -447,74 +641,15 @@ function RegionalESIM() {
         </div>
       </div>
 
-      {/* Region Cards */}
-      <div className="space-y-8">
-        {Object.keys(filteredAndSortedData).map((region) => (
-          <div
+      {/* Consolidated Region Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Object.entries(filteredAndSortedData).map(([region, plans]) => (
+          <ConsolidatedRegionCard
             key={region}
-            className="bg-white rounded-xl shadow-lg overflow-hidden"
-          >
-            {/* Region Header */}
-            <div
-              className={`bg-gradient-to-r ${
-                regionConfig[region]?.color || "from-gray-400 to-gray-600"
-              } p-6`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <span className="text-3xl">
-                    {regionConfig[region]?.icon || "🌐"}
-                  </span>
-                  <div>
-                    <h2 className="text-2xl font-bold text-white">{region}</h2>
-                    <p className="text-white/90 flex items-center space-x-1">
-                      <Users className="w-4 h-4" />
-                      <span>
-                        {filteredAndSortedData[region].length} regional plan
-                        {filteredAndSortedData[region].length !== 1 ? "s" : ""}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-white/90 text-sm">Avg. Price</div>
-                  <div className="text-2xl font-bold text-white">
-                    ₹
-                    {Math.round(
-                      filteredAndSortedData[region].reduce(
-                        (acc, plan) => acc + extractPrice(plan.price),
-                        0
-                      ) / filteredAndSortedData[region].length
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Plans Grid */}
-            <div className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredAndSortedData[region].map((plan) => (
-                  <EsimCountryCard
-                    key={plan.localPlanId}
-                    country={{
-                      countryName: plan.country || plan.name,
-                      countryCode: plan.countryCode || "us", // fallback
-                    }}
-                    dataLabel={
-                      extractDataValue(plan.data) === 999
-                        ? "Unlimited"
-                        : `${extractDataValue(
-                            plan.data
-                          )}GB / ${extractValidityDays(plan.validity)} days`
-                    }
-                    price={plan.price}
-                    onBuy={handleOnBuy}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+            region={region}
+            plans={plans}
+            onBuy={handleOnBuy}
+          />
         ))}
       </div>
 

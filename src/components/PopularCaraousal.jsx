@@ -1,4 +1,3 @@
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
 import { ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react';
@@ -15,7 +14,6 @@ export default function PopularCarousel({ countries, onBuy }) {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-
 
   const handleSlideChange = (swiper) => {
     setActiveIndex(swiper.activeIndex);
@@ -35,20 +33,6 @@ export default function PopularCarousel({ countries, onBuy }) {
     }
   };
 
-  // Auto-play control
-  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
-
-  const toggleAutoplay = () => {
-    if (swiperRef.current) {
-      if (isAutoplayPaused) {
-        swiperRef.current.autoplay.start();
-      } else {
-        swiperRef.current.autoplay.stop();
-      }
-      setIsAutoplayPaused(!isAutoplayPaused);
-    }
-  };
-
   return (
     <div className="relative group">
       {/* Enhanced Section Header */}
@@ -62,17 +46,6 @@ export default function PopularCarousel({ countries, onBuy }) {
             <p className="text-gray-600">Most popular among travelers</p>
           </div>
         </div>
-        
-        {/* Autoplay Toggle */}
-        <button
-          onClick={toggleAutoplay}
-          className="hidden md:flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
-        >
-          <div className={`w-2 h-2 rounded-full ${isAutoplayPaused ? 'bg-gray-400' : 'bg-green-500 animate-pulse'}`} />
-          <span className="text-sm text-gray-600">
-            {isAutoplayPaused ? 'Resume' : 'Auto-play'}
-          </span>
-        </button>
       </div>
 
       {/* Carousel Container */}
@@ -104,7 +77,6 @@ export default function PopularCarousel({ countries, onBuy }) {
           <ChevronRight className="w-6 h-6" />
         </button>
 
-    
         <Swiper
           ref={swiperRef}
           modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
@@ -161,13 +133,13 @@ export default function PopularCarousel({ countries, onBuy }) {
             <SwiperSlide key={`${country.countryCode}-${idx}`}>
               <div className="relative">
                 {/* Popular Badge for first few items */}
-                {idx < 3 && (
+                {/* {idx < 3 && (
                   <div className="absolute -top-3 -right-3 z-10">
                     <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg animate-pulse">
                       #{idx + 1} Popular
                     </div>
                   </div>
-                )}
+                )} */}
 
                 {/* Enhanced Country Card with hover effects */}
                 <div className="transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
@@ -175,7 +147,7 @@ export default function PopularCarousel({ countries, onBuy }) {
                     country={country}
                     dataLabel="1 GB to UNLIMITED DATA"
                     reviews={8}
-                    price={499}
+                    // price={499}
                     onBuy={onBuy}
                   />
                 </div>
@@ -183,8 +155,6 @@ export default function PopularCarousel({ countries, onBuy }) {
             </SwiperSlide>
           ))}
         </Swiper>
-
-   
       </div>
 
       {/* Background Decoration */}

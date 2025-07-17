@@ -300,7 +300,7 @@ export default function OrdersPage() {
   const [selectedButton, setSelectedButton] = useState('all')
   const [isLoading, setIsLoading] = useState(true);
   const [isTableLoading, setIsTableLoading] = useState(false);
-
+useEffect(() => {window.scrollTo(0, 0);}, []);
   useEffect(() => {
     if (orders && orders.length > 0) {
       setViewOrders(orders);

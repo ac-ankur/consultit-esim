@@ -273,7 +273,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../appContext/UserContext";
 import { useCart } from "../appContext/CartContext";
 import { IoPersonOutline, IoGridOutline, IoCartOutline } from "react-icons/io5";
-
+import motifpe from "../assets/motifpe.png";
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const { user, setUser } = useUser();
@@ -308,8 +308,7 @@ export default function Header() {
             to="/"
             className="text-2xl font-extrabold text-blue-600 tracking-tight flex items-center gap-1"
           >
-            <span className="text-gray-900">E</span>
-            <span className="text-red-600">SIM</span>
+            <img src={motifpe} alt="motifpelogo" className="w-45 h-18 p-2" />
           </Link>
 
           {/* Auth Section */}
@@ -317,13 +316,13 @@ export default function Header() {
             <div className="flex items-center gap-3">
               <Link
                 to="/login"
-                className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg font-medium shadow-md transition"
+                className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-5 py-2 rounded-lg font-medium shadow-md transition"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="bg-purple-500 hover:bg-purple-600 text-white px-5 py-2 rounded-lg font-medium shadow-md transition"
+                className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-5 py-2 rounded-lg font-medium shadow-md transition"
               >
                 Sign Up
               </Link>
@@ -340,7 +339,7 @@ export default function Header() {
               </div>
 
               {/* Cart Icon */}
-              {Array.isArray(cart) && (
+              {/* {Array.isArray(cart) && (
                 <div
                   onClick={() => navigate("/cart")}
                   className="cursor-pointer text-gray-800 hover:text-blue-600 transition relative"
@@ -353,33 +352,36 @@ export default function Header() {
                     </span>
                   )}
                 </div>
-              )}
+              )} */}
 
               {/* User Icon */}
               <button
                 onClick={() => setShowMenu(!showMenu)}
                 className="w-9 h-9 flex items-center justify-center text-xl text-gray-700 hover:text-blue-600 transition-transform"
                 title="Account"
+                style={{ cursor: "pointer" }}
               >
                 <IoPersonOutline className="w-7 h-7" />
               </button>
 
               {/* Dropdown */}
               {showMenu && (
-                <div className="absolute top-14 right-0 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fade-in">
-                  <Link to="/profile">
-                    <div className="px-4 py-3 text-gray-800 font-medium hover:bg-gray-100 cursor-pointer">
-                      {user?.userName?.split(" ")[0] || "Profile"}
-                    </div>
-                  </Link>
-                  <hr className="border-gray-100" />
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-medium transition"
-                  >
-                    Logout
-                  </button>
-                </div>
+               <div className="absolute top-14 right-0 min-w-[11rem] max-w-xs bg-white border border-gray-200 rounded-lg shadow-lg z-50 animate-fade-in">
+  <Link to="/profile">
+    <div className="px-4 py-3 text-gray-800 font-medium hover:bg-gray-100 cursor-pointer whitespace-nowrap">
+      {user?.userName?.split(" ")[0] || "Profile"}
+    </div>
+  </Link>
+  <hr className="border-gray-100" />
+  <button
+    onClick={handleLogout}
+    style={{ cursor: "pointer" }}
+    className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-medium transition whitespace-nowrap"
+  >
+    Logout
+  </button>
+</div>
+
               )}
             </div>
           )}
