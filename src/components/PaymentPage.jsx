@@ -40,7 +40,7 @@ export default function Cashfree() {
 console.log("Order Created:", orderCreated);
   const initializeCashfree = async () => {
     try {
-      const cashfreeInstance = await load({ mode: "production" });
+      const cashfreeInstance = await load({ mode: "sandbox" });
       setCashfree(cashfreeInstance);
       return cashfreeInstance;
     } catch (error) {
@@ -106,6 +106,8 @@ console.log("Order Created:", orderCreated);
         setIsLoading(false);
         return;
       }
+      console.log("sessionID:", orderData.payment_session_id);
+      
 
       const checkoutOptions = {
         paymentSessionId: orderData.payment_session_id,
