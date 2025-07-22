@@ -106,6 +106,8 @@ console.log("Order Created:", orderCreated);
         setIsLoading(false);
         return;
       }
+      console.log("sessionID:", orderData.payment_session_id);
+      
 
       const checkoutOptions = {
         paymentSessionId: orderData.payment_session_id,
