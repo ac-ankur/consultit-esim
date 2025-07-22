@@ -28,6 +28,9 @@ import KYCPolicy from "./FooterPages/Policies/KYC.jsx";
 import VerifyEmailPage from "./components/EmailVerification.jsx";
 import VendorRegistration from "./components/Vendor/VendorRegistration.jsx";
 import VendorManagement from "./components/Vendor/VendorManagement.jsx";
+import VendorSalesDashboard from "./components/Vendor/VendorSalesDashboard.jsx";
+import UserManagment from "./components/Admin/GetAllUsers.jsx";
+import ChangePassword from "./components/ChangePass.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -50,8 +53,8 @@ createRoot(document.getElementById("root")).render(
             {/* <Route path="/policy" element={<PrivacyPolicy />} /> */}
             <Route path="/kyc" element={<KYCPolicy />} />
             <Route path="/verify-email" element={<VerifyEmailPage />} />
-            <Route path="/vendorregistration" element={<VendorRegistration />} />
-            <Route path="/vendormanagement" element={<VendorManagement />} />
+            
+            
 
 
 
@@ -61,6 +64,12 @@ createRoot(document.getElementById("root")).render(
               <Route path="allesims" element={<AllEsims />} />
               <Route path="activate" element={<ActivateEsim />} />
               <Route path="orders/:id" element={<OrderViewPage />} />
+              <Route path="vendorregistration" element={<VendorRegistration />} />
+              <Route path="vendormanagement" element={<VendorManagement />} />
+              <Route path="vendordashboard" element={<VendorSalesDashboard/>} />
+              <Route path="usermanagement" element={<UserManagment/>} />
+              <Route path="changepass" element={<ChangePassword/>} />
+
             </Route>
             {/* <Route path="/dashboard/orders" element={<OrdersPage />} />
             <Route path="/dashboard/products/:id" element={<ProductPage />} />

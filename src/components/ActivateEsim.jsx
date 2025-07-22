@@ -69,25 +69,10 @@
 //   );
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Smartphone, Loader2, XCircle, CheckCircle } from "lucide-react";
+import { Smartphone, Loader2, XCircle, CheckCircle, CreditCard } from "lucide-react";
 
 export default function ActivateEsim() {
   const [iccid, setIccid] = useState("");
@@ -122,30 +107,35 @@ export default function ActivateEsim() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex justify-center items-center ">
+    <div className="min-h-screen bg-gray-100 to-purple-50 flex justify-center items-center ">
       <div className="w-full max-w-2xl  min-h-[400px]  p-8 rounded-xl">
         {/* Header */}
         <div className="flex items-center justify-center gap-6 mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-teal-500 rounded-full">
             <Smartphone className="w-6 h-6 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800">Activate eSIM</h2>
         </div>
 
         {/* ICCID Input */}
-        <label className="block mb-2 text-gray-700 font-medium">ICC-ID</label>
-        <input
-          type="text"
-          placeholder="Enter ICCID number"
-          className="w-full px-4 py-3 mb-20 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={iccid}
-          onChange={(e) => setIccid(e.target.value)}
-        />
+        <label className="block mb-2 text-gray-700 font-medium flex items-center gap-2">
+          <CreditCard className="w-5 h-5 text-teal-500" />
+          ICC-ID
+        </label>
+        <div className="mb-20">
+          <input
+            type="text"
+            placeholder="Enter ICCID number"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={iccid}
+            onChange={(e) => setIccid(e.target.value)}
+          />
+        </div>
 
         {/* Buttons */}
         <div className="flex gap-4">
           <button
-            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 rounded-md flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50"
+            className="flex-1 bg-gradient-to-r bg-teal-500 text-dark py-3 px-4 rounded-lg hover:scale-105 hover:from-teal-400 hover:to-teal-500 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
             onClick={handleActivate}
             disabled={loading}
           >
@@ -163,7 +153,7 @@ export default function ActivateEsim() {
           </button>
 
           <button
-            className="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-2 rounded-md flex items-center justify-center gap-2 transition-all duration-200"
+            className="px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200 font-medium flex items-center justify-center gap-2"
             onClick={() => setIccid("")}
             disabled={loading}
           >

@@ -1,36 +1,38 @@
-  import { useState } from "react";
+  import { useEffect,useState } from "react";
 import toast from "react-hot-toast";
 import { useUser } from "../appContext/UserContext";
 import axios from "axios";
+import baseURL from "../API/baseUrl";
 
 export default function ProfilePage() {
   const [disabled, setDisabled] = useState(false);
   const { user } = useUser();
   const [userData, setUserData] = useState(null)
 
-  useState(() => {
-    if (user) {
-      fetchUserData();
-    }
-  }, [user])
-
-  async function fetchUserData() {
-    console.log(user)
-    try {
-      await axios.get(`https://consultit-esim.onrender.com/api/user/info/${user?.userId}`)
-        .then(response => {
-          if (response.status == 200) {
-            setUserData(response.data.data);
-            console.log(response.data.data)
-          }
-        })
-        .catch(error => {
-          toast.error(error?.response.data);
-        });
-    } catch (error) {
-      toast.error('Error while fetching userData')
-    }
+ useEffect(() => {
+  if (user) {
+    fetchUserData();
   }
+}, [user]);
+
+ async function fetchUserData() {
+  console.log(user)
+  try {
+    // await axios.get(`${baseURL}/user/info/${user?.userId}`)
+    await axios.get(`${baseURL}/user/info/${user?.userId}`)
+      .then(response => {
+        if (response.status == 200) {
+          setUserData(response.data.data);
+          console.log(response.data.data)
+        }
+      })
+      .catch(error => {
+        toast.error(error?.response?.data?.message || "Error fetching user data");
+      });
+  } catch (error) {
+    toast.error('Error while fetching userData')
+  }
+}
 
   function updateUser(prop, value) {
     setUserData((prev) => ({ ...prev, [prop]: value }));

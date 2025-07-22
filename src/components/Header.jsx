@@ -263,11 +263,6 @@
 // //   );
 // // }
 
-
-
-
-
-
 // import React, { useEffect, useRef, useState } from "react";
 // import { Link, useNavigate, useLocation } from "react-router-dom";
 // import { useUser } from "../appContext/UserContext";
@@ -391,16 +386,19 @@
 //   );
 // }
 
-
-
-
-
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../appContext/UserContext";
 import { useCart } from "../appContext/CartContext";
-import { IoPersonOutline, IoGridOutline, IoCartOutline, IoMenuOutline, IoCloseOutline } from "react-icons/io5";
+import {
+  IoPersonOutline,
+  IoGridOutline,
+  IoCartOutline,
+  IoMenuOutline,
+  IoCloseOutline,
+} from "react-icons/io5";
 import motifpe from "../assets/motifpe.png";
+// import logo from "../assets/LogoMain.jsx";
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -416,7 +414,10 @@ export default function Header() {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowMenu(false);
       }
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
         setShowMobileMenu(false);
       }
     };
@@ -445,6 +446,10 @@ export default function Header() {
     setShowMobileMenu(false);
   };
 
+  const roleName =
+    user?.role?.roleName?.toLowerCase() ||
+    user?.profile?.role?.roleName?.toLowerCase();
+
   return (
     <header className="bg-white w-full sticky top-0 z-50 border-b border-gray-200 shadow-sm">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -454,7 +459,11 @@ export default function Header() {
             to="/"
             className="text-2xl font-extrabold text-blue-600 tracking-tight flex items-center gap-1 flex-shrink-0"
           >
-            <img src={motifpe} alt="motifpelogo" className="w-32 h-12 sm:w-40 sm:h-14 object-contain" />
+            <img
+              src={motifpe}
+              alt="motifpelogo"
+              className="w-32 h-12 sm:w-40 sm:h-50 object-contain"
+            />
           </Link>
 
           {/* Desktop Auth Section */}
@@ -478,7 +487,13 @@ export default function Header() {
               <div ref={menuRef} className="relative flex items-center gap-5">
                 {/* Dashboard Icon */}
                 <div
-                  onClick={() => navigate("/dashboard/orders")}
+                  onClick={() =>
+                    navigate(
+                      roleName === "admin"
+                        ? "/dashboard/Vendordashboard"
+                        : "/dashboard/orders"
+                    )
+                  }
                   className="cursor-pointer text-gray-800 hover:text-blue-600 transition"
                   title="Dashboard"
                 >
@@ -503,6 +518,12 @@ export default function Header() {
                         {user?.userName?.split(" ")[0] || "Profile"}
                       </div>
                     </Link>
+                    {/* Change Password Link */}
+                    <Link to="/dashboard/changepass">
+                      <div className="px-4 py-3 text-gray-800 font-medium hover:bg-gray-100 cursor-pointer whitespace-nowrap">
+                        Change Password
+                      </div>
+                    </Link>
                     <hr className="border-gray-100" />
                     <button
                       onClick={handleLogout}
@@ -521,7 +542,13 @@ export default function Header() {
           <div className="md:hidden flex items-center">
             {user && (
               <div
-                onClick={() => navigate("/dashboard/orders")}
+                onClick={() =>
+                  navigate(
+                    roleName === "admin"
+                      ? "/dashboard/Vendordashboard"
+                      : "/dashboard/orders"
+                  )
+                }
                 className="cursor-pointer text-gray-800 hover:text-blue-600 transition mr-3"
                 title="Dashboard"
               >
@@ -544,7 +571,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {showMobileMenu && (
-          <div 
+          <div
             ref={mobileMenuRef}
             className="md:hidden absolute top-16 left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-40"
           >

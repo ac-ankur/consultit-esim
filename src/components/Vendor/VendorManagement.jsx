@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Edit, Building2, Mail, Phone, CreditCard, MapPin, Banknote, ChevronLeft, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import apiClient from '../../API/apiClient';
+import { useNavigate } from 'react-router-dom';
+
 
 // VendorList Component
 const VendorList = ({ onEditVendor }) => {
   const [vendors, setVendors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+   const navigate = useNavigate();
 
   const fetchVendors = async () => {
     try {
@@ -63,10 +66,21 @@ const VendorList = ({ onEditVendor }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Vendor Management</h1>
-        <p className="text-gray-600">Manage your vendor relationships and partnerships</p>
+      <div className="max-w-7xl mx-auto p-6">
+      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Vendor Management</h1>
+          <p className="text-gray-600">Manage your vendor relationships and partnerships</p>
+           <p className="mt-2 text-teal-700 font-semibold">
+          Total Registered Vendors: {vendors.length}
+        </p>
+        </div>
+        <button
+          onClick={() => navigate('/dashboard/vendorregistration')}
+          className="bg-teal-500 text-white px-5 py-2 rounded-lg font-medium shadow-md hover:bg-teal-600 transition"
+        >
+          Add New Vendor
+        </button>
       </div>
 
       <div className="grid gap-6">

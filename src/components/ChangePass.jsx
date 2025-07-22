@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { FiLock } from 'react-icons/fi';
+import { MdPassword } from 'react-icons/md';
+import { FaCheckDouble } from 'react-icons/fa';
 
 export default function ChangePassword() {
   const [form, setForm] = useState({
@@ -41,16 +43,19 @@ export default function ChangePassword() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="max-w-md w-full   p-6">
-         <h2 className="text-2xl font-bold mb-4 text-center flex items-center justify-center gap-2">
-          <FiLock className="w-6 h-6 text-blue-600" />
+      <div className="max-w-md w-full p-6">
+        <h2 className="text-2xl font-bold mb-4 text-center flex items-center justify-center gap-2">
+          <FiLock className="w-6 h-6 text-teal-500" />
           Change Password
         </h2>
         {error && <div className="text-red-500 mb-2">{error}</div>}
         {message && <div className="text-green-500 mb-2">{message}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-1">Current Password</label>
+            <label className="block text-gray-700 mb-1 flex items-center gap-2">
+              <MdPassword className="w-5 h-5 text-teal-500" />
+              Current Password
+            </label>
             <input
               type="password"
               name="currentPassword"
@@ -62,7 +67,10 @@ export default function ChangePassword() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 mb-1">New Password</label>
+            <label className="block text-gray-700 mb-1 flex items-center gap-2">
+              <MdPassword className="w-5 h-5 text-teal-500" />
+              New Password
+            </label>
             <input
               type="password"
               name="newPassword"
@@ -74,7 +82,10 @@ export default function ChangePassword() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 mb-1">Confirm New Password</label>
+            <label className="block text-gray-700 mb-1 flex items-center gap-2">
+              <FaCheckDouble className="w-5 h-5 text-teal-500" />
+              Confirm New Password
+            </label>
             <input
               type="password"
               name="confirmPassword"
@@ -87,7 +98,7 @@ export default function ChangePassword() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300"
+            className="w-full bg-gradient-to-r bg-teal-500 text-dark py-3 px-4 rounded-lg hover:scale-105 hover:from-teal-400 hover:to-teal-500 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
           >
             Change Password
           </button>

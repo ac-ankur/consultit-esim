@@ -437,37 +437,37 @@ useEffect(() => {window.scrollTo(0, 0);}, []);
       {isTableLoading ? (
         <TableSkeleton />
       ) : (
-        <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+        <div className="overflow-x-auto bg-white shadow-md rounded-lg ">
           <table className="min-w-full text-sm text-left">
             <thead className="bg-gray-200">
               <tr>
-                <th className="px-4 py-2">
+                <th className="px-4 py-2 bg-teal-50">
                   <div className="flex items-center gap-2">
                     <ShoppingCart className="w-4 h-4" />
                     Order
                   </div>
                 </th>
-                <th className="px-4 py-2">
+                <th className="px-4 py-2 bg-teal-50">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
                     Date
                   </div>
                 </th>
-                <th className="px-4 py-2">
+                <th className="px-4 py-2  bg-teal-50">
                   <div className="flex items-center gap-2">
                     <CreditCard className="w-4 h-4" />
                     Payment
                   </div>
                 </th>
-                <th className="px-4 py-2">Total</th>
+                <th className="px-4 py-2 bg-teal-50">Total</th>
                 {/* <th className="px-4 py-2">Delivery</th> */}
-                <th className="px-4 py-2">
+                <th className="px-4 py-2 bg-teal-50">
                   <div className="flex items-center gap-2">
                     <Package className="w-4 h-4" />
                     Items
                   </div>
                 </th>
-                <th className="px-4 py-2">Status</th>
+                <th className="px-4 py-2 bg-teal-50">Status</th>
               </tr>
             </thead>
             <tbody>

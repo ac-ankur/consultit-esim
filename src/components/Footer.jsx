@@ -220,8 +220,8 @@ export default function Footer() {
             
             {/* Company Section */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="flex items-center space-x-3">
-                <img src={logo} alt="Motifpe Logo" className="h-12 w-auto object-contain" />
+              <div>
+                <img src={logo} alt="Motifpe Logo" className="w-32 h-12 sm:w-40 sm:h-50 object-contain" />
 
               </div>
               

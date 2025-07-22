@@ -12,11 +12,11 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -24,24 +24,32 @@ export default function LoginPage() {
     },
     onSubmit: async (values) => {
       setLoading(true);
-      const response = await fetch(
-        `${baseURL}/auth/sign-in`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userName: values.username,
-            password: values.password,
-          }),
-        }
-      );
+      const response = await fetch(`${baseURL}/auth/sign-in`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName: values.username,
+          password: values.password,
+        }),
+      });
       setLoading(false);
       if (response.status == 200) {
         const data = await response.json();
         setUserInContext(data);
-        navigate("/");
+
+        // Get roleName safely from both possible structures
+        console.log("User Data:", data);
+        const roleName =
+        
+          data?.data?.profile?.role?.roleName?.toLowerCase();
+console.log("Role Name:", roleName);
+        if (roleName === "admin") {
+          navigate("/dashboard/Vendordashboard");
+        } else {
+          navigate("/");
+        }
       } else {
         toast.error("Invalid Credentials");
       }
@@ -59,7 +67,9 @@ export default function LoginPage() {
               <Lock className="w-8 h-8 text-white" />
             </div>
             <h2 className="text-2xl font-bold text-white">Welcome Back</h2>
-            <p className="text-teal-100 text-sm mt-1">Sign in to your account</p>
+            <p className="text-teal-100 text-sm mt-1">
+              Sign in to your account
+            </p>
           </div>
 
           {/* Form section */}
@@ -119,8 +129,8 @@ export default function LoginPage() {
 
               {/* Forgot password */}
               <div className="flex justify-end">
-                <a 
-                  href="/" 
+                <a
+                  href="/"
                   className="text-sm text-teal-600 hover:text-teal-700 font-medium hover:underline transition-colors"
                 >
                   Forgot password?
@@ -132,7 +142,7 @@ export default function LoginPage() {
                 type="submit"
                 disabled={loading}
                 className="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 disabled:from-teal-400 disabled:to-teal-500 text-white py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                style={{ cursor: "pointer"}}
+                style={{ cursor: "pointer" }}
               >
                 {loading ? (
                   <>
@@ -149,7 +159,10 @@ export default function LoginPage() {
             <div className="mt-8 text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{" "}
-                <Link to="/signup" className="text-teal-600 hover:text-teal-700 font-semibold hover:underline transition-colors">
+                <Link
+                  to="/signup"
+                  className="text-teal-600 hover:text-teal-700 font-semibold hover:underline transition-colors"
+                >
                   Sign up
                 </Link>
               </p>

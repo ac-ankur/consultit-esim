@@ -12,6 +12,7 @@ import heroImage3 from "./assets/images/landingPage/image3.jpg";
 import heroImage4 from "./assets/images/landingPage/image4.jpg";
 import heroImage5 from "./assets/images/landingPage/image5.jpg";
 import RegionWiseESIM from "./components/RegionWise";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const countryCache = new Map();
 
@@ -24,7 +25,7 @@ const POPULAR_COUNTRIES = [
   "france",
 ];
 
-const ITEMS_PER_PAGE = 20; 
+const ITEMS_PER_PAGE = 20;
 
 const HERO_IMAGES = [
   {
@@ -657,6 +658,25 @@ function App() {
 
         {/* Countries Grid */}
         <div className="relative">
+          <InfiniteScroll
+            dataLength={displayedCountries.length}
+            next={handleLoadMore}
+            hasMore={hasMore}
+            loader={<h4 className="text-center my-4">Loading...</h4>}
+            style={{ overflow: "visible" }}
+            scrollThreshold={0.9}
+          >
+            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
+              {displayedCountries.map((country, idx) => (
+                <EsimCountryCard
+                  key={`${country.countryCode}-${idx}`}
+                  country={country}
+                  dataLabel="1 GB to UNLIMITED DATA"
+                  onBuy={handleOnBuy}
+                />
+              ))}
+            </div>
+          </InfiniteScroll>
           {isLoading ? (
             <CountriesGridSkeleton />
           ) : (

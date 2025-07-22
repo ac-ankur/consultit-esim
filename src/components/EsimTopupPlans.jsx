@@ -45,12 +45,12 @@ export default function EsimTopup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex justify-center items-center ">
+    <div className="min-h-screen bg-gray-100 flex justify-center items-center ">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-teal-500 rounded-full">
               <Smartphone className="w-6 h-6 text-white" />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Top-up</h2>
@@ -61,7 +61,7 @@ export default function EsimTopup() {
         {/* ICCID Input */}
         <div className="mb-3">
           <label className="flex items-center mb-2 text-gray-700 font-medium">
-            <CreditCard className="w-4 h-4 mr-2 text-gray-500" />
+            <CreditCard className="w-4 h-4 mr-2 text-teal-500" />
             ICCID
           </label>
           <input
@@ -76,7 +76,7 @@ export default function EsimTopup() {
         {/* Plan Selection */}
         <div className="mb-6">
           <label className="flex items-center mb-2 text-gray-700 font-medium">
-            <Zap className="w-4 h-4 mr-2 text-gray-500" />
+            <Zap className="w-4 h-4 mr-2 text-teal-500" />
             Select eSIM Plan
           </label>
           <select
@@ -104,7 +104,7 @@ export default function EsimTopup() {
         {/* Action Buttons */}
         <div className="flex gap-3">
           <button
-            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+            className="flex-1 bg-gradient-to-r bg-teal-500 text-dark py-3 px-4 rounded-lg hover:scale-105 hover:from-teal-400 hover:to-teal-500 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
             onClick={handleSubmit}
             disabled={loading}
           >
