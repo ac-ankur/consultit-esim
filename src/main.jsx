@@ -23,9 +23,11 @@ import ActivateEsim from "./components/ActivateEsim.jsx";
 import PaymentPage from "./components/PaymentPage.jsx";
 import RefundPolicy from "./FooterPages/Policies/RefundPolicy.jsx";
 import TermsOfService from "./FooterPages/Policies/TermsOfServices.jsx";
-import PrivacyPolicy from "./FooterPages/Policies/PrivacyPolicy.jsx";
+// import PrivacyPolicy from "./FooterPages/Policies/PrivacyPolicy.jsx";
 import KYCPolicy from "./FooterPages/Policies/KYC.jsx";
 import VerifyEmailPage from "./components/EmailVerification.jsx";
+import VendorRegistration from "./components/Vendor/VendorRegistration.jsx";
+import VendorManagement from "./components/Vendor/VendorManagement.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -43,12 +45,16 @@ createRoot(document.getElementById("root")).render(
             <Route path="/cart" element={<CartPage />} />
             <Route path="/products/:country" element={<PlanPage />} />
             <Route path="/payment/:id" element={<PaymentPage />} />
-
             <Route path="/refund-policy" element={<RefundPolicy />} />
             <Route path="/termsofservices" element={<TermsOfService />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
+            {/* <Route path="/policy" element={<PrivacyPolicy />} /> */}
             <Route path="/kyc" element={<KYCPolicy />} />
             <Route path="/verify-email" element={<VerifyEmailPage />} />
+            <Route path="/vendorregistration" element={<VendorRegistration />} />
+            <Route path="/vendormanagement" element={<VendorManagement />} />
+
+
+
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route path="orders" element={<OrdersPage />} />
               <Route path="topup" element={<EsimTopupPlans />} />

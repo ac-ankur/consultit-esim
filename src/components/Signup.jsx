@@ -337,14 +337,8 @@
 
 
 
-
-
-
-
-
-
 import { useEffect, useState } from "react";
-import { Eye, EyeOff, User, Mail, Phone, Lock, CheckCircle, AlertCircle, X } from "lucide-react";
+import { Eye, EyeOff, User, Mail, Phone, Lock, CheckCircle, AlertCircle, X, Smartphone, Globe, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -353,19 +347,18 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import apiClient from "../API/apiClient";
 
-
 // Custom Toast Component for API messages
 const CustomToast = ({ message, type, onClose }) => (
   <div className={`fixed top-4 right-4 max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 ${
-    type === 'success' ? 'border-green-500' : 'border-red-500'
+    type === 'success' ? 'border-teal-500' : 'border-red-500'
   } p-4 flex items-center space-x-3 animate-slide-in z-50`}>
     {type === 'success' ? (
-      <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
+      <CheckCircle className="text-teal-500 flex-shrink-0" size={20} />
     ) : (
       <AlertCircle className="text-red-500 flex-shrink-0" size={20} />
     )}
     <div className="flex-1">
-      <p className={`text-sm font-medium ${type === 'success' ? 'text-green-800' : 'text-red-800'}`}>
+      <p className={`text-sm font-medium ${type === 'success' ? 'text-teal-800' : 'text-red-800'}`}>
         {message}
       </p>
     </div>
@@ -375,8 +368,8 @@ const CustomToast = ({ message, type, onClose }) => (
   </div>
 );
 
-// Floating Label Input Component
-const FloatingLabelInput = ({ 
+// Compact Floating Label Input Component
+const CompactFloatingInput = ({ 
   label, 
   type = "text", 
   name, 
@@ -387,24 +380,21 @@ const FloatingLabelInput = ({
   icon: Icon,
   showPassword,
   onTogglePassword,
-  hasToggle = false
+  hasToggle = false,
+  className = ""
 }) => {
   const [focused, setFocused] = useState(false);
   const hasValue = value && value.length > 0;
   
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  
   return (
-    <div className="relative mb-6">
+    <div className={`relative ${className}`}>
       <div className="relative">
         {Icon && (
           <Icon 
             className={`absolute left-3 top-3 transition-colors duration-200 ${
-              focused || hasValue ? 'text-blue-500' : 'text-gray-400'
+              focused || hasValue ? 'text-teal-500' : 'text-gray-400'
             }`} 
-            size={20} 
+            size={18} 
           />
         )}
         
@@ -415,22 +405,22 @@ const FloatingLabelInput = ({
           onChange={onChange}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className={`w-full px-4 py-3 ${Icon ? 'pl-12' : 'pl-4'} ${hasToggle ? 'pr-12' : 'pr-4'} 
-            border-2 rounded-lg transition-all duration-200 outline-none
+          className={`w-full px-3 py-2.5 ${Icon ? 'pl-10' : 'pl-3'} ${hasToggle ? 'pr-10' : 'pr-3'} 
+            border-2 rounded-lg transition-all duration-200 outline-none text-sm
             ${error && touched 
               ? 'border-red-500 focus:border-red-500' 
               : focused || hasValue 
-                ? 'border-blue-500 focus:border-blue-500' 
-                : 'border-gray-300 focus:border-blue-500'
+                ? 'border-teal-500 focus:border-teal-500' 
+                : 'border-gray-300 focus:border-teal-500'
             }
             ${focused ? 'shadow-md' : ''}
           `}
         />
         
-        <label className={`absolute left-4 ${Icon ? 'left-12' : 'left-4'} transition-all duration-200 pointer-events-none
+        <label className={`absolute ${Icon ? 'left-10' : 'left-3'} transition-all duration-200 pointer-events-none
           ${focused || hasValue 
-            ? '-top-2 text-xs bg-white px-1 font-medium' + (error && touched ? ' text-red-500' : ' text-blue-500')
-            : 'top-3 text-gray-500'
+            ? '-top-2 text-xs bg-white px-1 font-medium' + (error && touched ? ' text-red-500' : ' text-teal-500')
+            : 'top-2.5 text-gray-500 text-sm'
           }
         `}>
           {label}
@@ -439,17 +429,17 @@ const FloatingLabelInput = ({
         {hasToggle && (
           <button
             type="button"
-            className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 transition-colors duration-200"
             onClick={onTogglePassword}
           >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         )}
       </div>
       
       {error && touched && (
-        <div className="mt-1 text-red-500 text-sm flex items-center space-x-1">
-          <AlertCircle size={16} />
+        <div className="mt-1 text-red-500 text-xs flex items-center space-x-1">
+          <AlertCircle size={14} />
           <span>{error}</span>
         </div>
       )}
@@ -465,10 +455,14 @@ export default function SignupPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apiMessage, setApiMessage] = useState(null);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Custom API message handler
   const showApiMessage = (message, type = 'error') => {
     setApiMessage({ message, type });
-    setTimeout(() => setApiMessage(null), 5000); // Auto dismiss after 5 seconds
+    setTimeout(() => setApiMessage(null), 5000);
   };
 
   const formik = useFormik({
@@ -485,7 +479,6 @@ export default function SignupPage() {
         .required('Full name is required'),
       email: Yup.string()
         .email('Invalid email format')
-        .matches(/^[\w.+-]+@gmail\.com$/, 'Only Gmail addresses allowed')
         .required('Email is required'),
       mobile: Yup.string()
         .matches(/^[6-9]\d{9}$/, 'Please enter a valid mobile number')
@@ -527,7 +520,7 @@ export default function SignupPage() {
           try {
             await apiClient.post('/auth/verification/send-otp', {
               value: values.email,
-            contactMethod:"email"
+              contactMethod:"email"
             });
             
             showApiMessage('Account created successfully! Please check your email for verification code.', 'success');
@@ -597,107 +590,167 @@ export default function SignupPage() {
 
   return (
     <>
-      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-3">
-        <div className="relative bg-white rounded-xl shadow-2xl p-6 w-full max-w-md border border-gray-100">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
-              <User className="text-white" size={32} />
-            </div>
-            <h2 className="text-3xl font-bold text-gray-800">Create Account</h2>
-
+      <div className="min-h-screen w-full flex bg-white" style={{height: '90%'}}>
+   
+        <div className="hidden lg:flex lg:flex-1 bg-gradient-to-br from-teal-600 via-teal-700 to-teal-800 relative overflow-hidden">
+        
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-20 left-20 w-40 h-40 bg-white rounded-full"></div>
+            <div className="absolute bottom-40 right-20 w-60 h-60 bg-white rounded-full"></div>
+            <div className="absolute top-60 right-40 w-20 h-20 bg-white rounded-full"></div>
           </div>
-
-          {/* Form */}
-          <form onSubmit={formik.handleSubmit} className="space-y-2">
-            <FloatingLabelInput
-              label="Full Name"
-              type="text"
-              name="fullName"
-              value={formik.values.fullName}
-              onChange={formik.handleChange}
-              error={formik.errors.fullName}
-              touched={formik.touched.fullName}
-              icon={User}
-            />
-
-            <FloatingLabelInput
-              label="Email Address"
-              type="email"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.errors.email}
-              touched={formik.touched.email}
-              icon={Mail}
-            />
-
-            <FloatingLabelInput
-              label="Mobile Number"
-              type="text"
-              name="mobile"
-              value={formik.values.mobile}
-              onChange={formik.handleChange}
-              error={formik.errors.mobile}
-              touched={formik.touched.mobile}
-              icon={Phone}
-            />
-
-            <FloatingLabelInput
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.errors.password}
-              touched={formik.touched.password}
-              icon={Lock}
-              showPassword={showPassword}
-              onTogglePassword={() => setShowPassword(!showPassword)}
-              hasToggle={true}
-            />
-
-            <FloatingLabelInput
-              label="Confirm Password"
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
-              error={formik.errors.confirmPassword}
-              touched={formik.touched.confirmPassword}
-              icon={Lock}
-              showPassword={showConfirmPassword}
-              onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
-              hasToggle={true}
-            />
-
-            <button
-              type="submit"
-              disabled={loading}
-              style={{ cursor: "pointer" }}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 mt-6"
-            >
-              {loading ? (
-                <div className="flex items-center space-x-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Creating Account...</span>
+          
+          {/* Content */}
+          <div className="relative z-10 flex flex-col justify-center items-center text-white p-12 text-center mb-30 left-20">
+            <div className="mb-8">
+              <div className="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6">
+                <Smartphone className="text-white" size={48} />
+              </div>
+              <h1 className="text-4xl font-bold mb-4">Welcome to eSIM World</h1>
+              <p className="text-xl text-teal-100 mb-1leading-relaxed">
+                Connect globally with instant eSIM activation. No physical SIM cards needed.
+              </p>
+            </div>
+            
+            {/* Features */}
+            <div className="space-y-7 max-w-sm">
+              <div className="flex items-center space-x-3 text-left">
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Zap className="text-white" size={16} />
                 </div>
-              ) : (
-                'Create Account'
-              )}
-            </button>
-          </form>
-
-          {/* Footer */}
-          <p className="mt-6 text-center text-gray-600">
-            Already have an account?{" "}
-            <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
-              Sign In
-            </Link>
-          </p>
+                <span className="text-teal-100">Instant activation worldwide</span>
+              </div>
+              <div className="flex items-center space-x-3 text-left">
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Globe className="text-white" size={16} />
+                </div>
+                <span className="text-teal-100">200+ countries coverage</span>
+              </div>
+              <div className="flex items-center space-x-3 text-left">
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="text-white" size={16} />
+                </div>
+                <span className="text-teal-100">No roaming charges</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Custom API Message Toast */}
+        {/* Right Side - Form */}
+        <div className="flex-1 lg:max-w-lg xl:max-w-xl flex items-center justify-center p-6 lg:p-12">
+          <div className="w-full max-w-md space-y-6">
+            {/* Header */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User className="text-white" size={32} />
+              </div>
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">Create Account</h2>
+              <p className="text-gray-600">Join thousands of travelers using eSIM</p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={formik.handleSubmit} className="space-y-4">
+              {/* Full Name */}
+              <CompactFloatingInput
+                label="Full Name"
+                type="text"
+                name="fullName"
+                value={formik.values.fullName}
+                onChange={formik.handleChange}
+                error={formik.errors.fullName}
+                touched={formik.touched.fullName}
+                icon={User}
+              />
+
+              {/* Email */}
+              <CompactFloatingInput
+                label="Email Address"
+                type="email"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.errors.email}
+                touched={formik.touched.email}
+                icon={Mail}
+              />
+
+              {/* Mobile */}
+              <CompactFloatingInput
+                label="Mobile Number"
+                type="text"
+                name="mobile"
+                value={formik.values.mobile}
+                onChange={formik.handleChange}
+                error={formik.errors.mobile}
+                touched={formik.touched.mobile}
+                icon={Phone}
+              />
+
+              {/* Password Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <CompactFloatingInput
+                  label="Password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={formik.errors.password}
+                  touched={formik.touched.password}
+                  icon={Lock}
+                  showPassword={showPassword}
+                  onTogglePassword={() => setShowPassword(!showPassword)}
+                  hasToggle={true}
+                />
+
+                <CompactFloatingInput
+                  label="Confirm Password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={formik.values.confirmPassword}
+                  onChange={formik.handleChange}
+                  error={formik.errors.confirmPassword}
+                  touched={formik.touched.confirmPassword}
+                  icon={Lock}
+                  showPassword={showConfirmPassword}
+                  onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
+                  hasToggle={true}
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                style={{cursor: loading ? 'not-allowed' : 'pointer'}}
+                className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 mt-6 shadow-lg hover:shadow-xl"
+              >
+                {loading ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Creating Account...</span>
+                  </div>
+                ) : (
+                  <>
+                    <span>Create Account</span>
+                    <Smartphone size={18} />
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Footer */}
+            <div className="text-center pt-4 border-t border-gray-200">
+              <p className="text-gray-600">
+                Already have an account?{" "}
+                <Link to="/login" className="text-teal-600 hover:text-teal-700 font-medium hover:underline transition-colors">
+                  Sign In
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        
         {apiMessage && (
           <CustomToast
             message={apiMessage.message}
@@ -727,426 +780,3 @@ export default function SignupPage() {
   );
 }
 
-
-
-
-
-
-
-
-// import { useState } from "react";
-// import { Eye, EyeOff, User, Mail, Phone, Lock, CheckCircle, AlertCircle, X, Smartphone, Globe, Wifi } from "lucide-react";
-
-// // Custom Toast Component for API messages
-// const CustomToast = ({ message, type, onClose }) => (
-//   <div className={`fixed top-4 right-4 max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 ${
-//     type === 'success' ? 'border-emerald-500' : 'border-red-500'
-//   } p-4 flex items-center space-x-3 animate-slide-in z-50`}>
-//     {type === 'success' ? (
-//       <CheckCircle className="text-emerald-500 flex-shrink-0" size={20} />
-//     ) : (
-//       <AlertCircle className="text-red-500 flex-shrink-0" size={20} />
-//     )}
-//     <div className="flex-1">
-//       <p className={`text-sm font-medium ${type === 'success' ? 'text-emerald-800' : 'text-red-800'}`}>
-//         {message}
-//       </p>
-//     </div>
-//     <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-//       <X size={16} />
-//     </button>
-//   </div>
-// );
-
-// // Modern Input Component
-// const ModernInput = ({ 
-//   label, 
-//   type = "text", 
-//   name, 
-//   value, 
-//   onChange, 
-//   error, 
-//   touched, 
-//   icon: Icon,
-//   showPassword,
-//   onTogglePassword,
-//   hasToggle = false,
-//   placeholder
-// }) => {
-//   const [focused, setFocused] = useState(false);
-  
-//   return (
-//     <div className="relative">
-//       <label className="block text-sm font-medium text-gray-700 mb-2">
-//         {label}
-//       </label>
-//       <div className="relative">
-//         {Icon && (
-//           <Icon 
-//             className={`absolute left-3 top-1/2 transform -translate-y-1/2 transition-colors duration-200 ${
-//               focused ? 'text-emerald-500' : 'text-gray-400'
-//             }`} 
-//             size={20} 
-//           />
-//         )}
-        
-//         <input
-//           type={type}
-//           name={name}
-//           value={value}
-//           onChange={onChange}
-//           onFocus={() => setFocused(true)}
-//           onBlur={() => setFocused(false)}
-//           placeholder={placeholder}
-//           className={`w-full px-4 py-3 ${Icon ? 'pl-12' : 'pl-4'} ${hasToggle ? 'pr-12' : 'pr-4'} 
-//             border-2 rounded-xl transition-all duration-200 outline-none bg-gray-50 focus:bg-white
-//             ${error && touched 
-//               ? 'border-red-500 focus:border-red-500' 
-//               : focused
-//                 ? 'border-emerald-500 focus:border-emerald-500 shadow-lg shadow-emerald-100' 
-//                 : 'border-gray-200 hover:border-gray-300'
-//             }
-//           `}
-//         />
-        
-//         {hasToggle && (
-//           <button
-//             type="button"
-//             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-emerald-500 transition-colors duration-200"
-//             onClick={onTogglePassword}
-//           >
-//             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-//           </button>
-//         )}
-//       </div>
-      
-//       {error && touched && (
-//         <div className="mt-1 text-red-500 text-sm flex items-center space-x-1">
-//           <AlertCircle size={16} />
-//           <span>{error}</span>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default function ModernSignupPage() {
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-//   const [loading, setLoading] = useState(false);
-//   const [apiMessage, setApiMessage] = useState(null);
-//   const [formData, setFormData] = useState({
-//     fullName: '',
-//     email: '',
-//     mobile: '',
-//     password: '',
-//     confirmPassword: '',
-//   });
-//   const [errors, setErrors] = useState({});
-//   const [touched, setTouched] = useState({});
-
-//   // Custom API message handler
-//   const showApiMessage = (message, type = 'error') => {
-//     setApiMessage({ message, type });
-//     setTimeout(() => setApiMessage(null), 5000);
-//   };
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData(prev => ({
-//       ...prev,
-//       [name]: value
-//     }));
-//     setTouched(prev => ({
-//       ...prev,
-//       [name]: true
-//     }));
-//   };
-
-//   const validateForm = () => {
-//     const newErrors = {};
-    
-//     if (!formData.fullName.trim()) {
-//       newErrors.fullName = 'Full name is required';
-//     } else if (formData.fullName.length < 3) {
-//       newErrors.fullName = 'Full name must be at least 3 characters';
-//     }
-    
-//     if (!formData.email.trim()) {
-//       newErrors.email = 'Email is required';
-//     } else if (!/^[\w.+-]+@gmail\.com$/.test(formData.email)) {
-//       newErrors.email = 'Only Gmail addresses allowed';
-//     }
-    
-//     if (!formData.mobile.trim()) {
-//       newErrors.mobile = 'Mobile number is required';
-//     } else if (!/^[6-9]\d{9}$/.test(formData.mobile)) {
-//       newErrors.mobile = 'Please enter a valid mobile number';
-//     }
-    
-//     if (!formData.password) {
-//       newErrors.password = 'Password is required';
-//     } else if (formData.password.length < 6) {
-//       newErrors.password = 'Password must be at least 6 characters';
-//     } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-//       newErrors.password = 'Password must contain uppercase, lowercase, and number';
-//     }
-    
-//     if (!formData.confirmPassword) {
-//       newErrors.confirmPassword = 'Please confirm your password';
-//     } else if (formData.password !== formData.confirmPassword) {
-//       newErrors.confirmPassword = 'Passwords must match';
-//     }
-    
-//     setErrors(newErrors);
-//     return Object.keys(newErrors).length === 0;
-//   };
-
-//   const handleSubmit = async () => {
-    
-//     if (!validateForm()) {
-//       showApiMessage('Please fix the validation errors and try again.', 'error');
-//       return;
-//     }
-    
-//     setLoading(true);
-//     setApiMessage(null);
-    
-//     try {
-//       // Simulate API call
-//       await new Promise(resolve => setTimeout(resolve, 2000));
-//       showApiMessage('Account created successfully! Welcome to MotifPe!', 'success');
-//     } catch (error) {
-//       showApiMessage('Something went wrong. Please try again.', 'error');
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <div className="min-h-screen w-full flex bg-gradient-to-br from-emerald-50 to-teal-50">
-//         {/* Left Side - Hero Section */}
-//         <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-500 to-teal-600 p-12 flex-col justify-center items-center text-white relative overflow-hidden">
-//           {/* Background Pattern */}
-//           <div className="absolute inset-0 opacity-10">
-//             <div className="absolute top-10 left-10 w-20 h-20 border-2 border-white rounded-full"></div>
-//             <div className="absolute top-32 right-20 w-16 h-16 border-2 border-white rounded-lg rotate-45"></div>
-//             <div className="absolute bottom-20 left-20 w-24 h-24 border-2 border-white rounded-full"></div>
-//             <div className="absolute bottom-40 right-10 w-12 h-12 border-2 border-white rounded-lg rotate-12"></div>
-//           </div>
-          
-//           {/* Logo */}
-//           <div className="mb-8 z-10">
-//             <div className="flex items-center space-x-3 mb-4">
-//               <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-//                 <Smartphone className="text-emerald-500" size={28} />
-//               </div>
-//               <h1 className="text-3xl font-bold">MotifPe</h1>
-//             </div>
-//           </div>
-          
-//           {/* Hero Content */}
-//           <div className="text-center z-10 max-w-md">
-//             <h2 className="text-4xl font-bold mb-6 leading-tight">
-//               Your Global eSIM Solution
-//             </h2>
-//             <p className="text-xl mb-8 text-emerald-100">
-//               Connect anywhere, anytime with our premium eSIM services. No more physical SIM cards, just seamless connectivity.
-//             </p>
-            
-//             {/* Feature Icons */}
-//             <div className="flex justify-center space-x-8 mb-8">
-//               <div className="text-center">
-//                 <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
-//                   <Globe size={24} />
-//                 </div>
-//                 <p className="text-sm text-emerald-100">Global Coverage</p>
-//               </div>
-//               <div className="text-center">
-//                 <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
-//                   <Wifi size={24} />
-//                 </div>
-//                 <p className="text-sm text-emerald-100">Instant Activation</p>
-//               </div>
-//               <div className="text-center">
-//                 <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
-//                   <Smartphone size={24} />
-//                 </div>
-//                 <p className="text-sm text-emerald-100">Easy Setup</p>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Right Side - Form */}
-//         <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-//           <div className="w-full max-w-md">
-//             {/* Header */}
-//             <div className="text-center mb-8">
-//               <div className="lg:hidden mb-6">
-//                 <div className="flex items-center justify-center space-x-3 mb-4">
-//                   <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center">
-//                     <Smartphone className="text-white" size={24} />
-//                   </div>
-//                   <h1 className="text-2xl font-bold text-gray-800">MotifPe</h1>
-//                 </div>
-//               </div>
-              
-//               <h2 className="text-3xl font-bold text-gray-800 mb-2">Create Account</h2>
-//               <p className="text-gray-600">Join thousands of users worldwide</p>
-//             </div>
-
-//             {/* Form */}
-//             <div className="space-y-6">
-//               {/* Full Name */}
-//               <ModernInput
-//                 label="Full Name"
-//                 type="text"
-//                 name="fullName"
-//                 value={formData.fullName}
-//                 onChange={handleChange}
-//                 error={errors.fullName}
-//                 touched={touched.fullName}
-//                 icon={User}
-//                 placeholder="Enter your full name"
-//               />
-
-//               {/* Email and Mobile on same line */}
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                 <ModernInput
-//                   label="Email Address"
-//                   type="email"
-//                   name="email"
-//                   value={formData.email}
-//                   onChange={handleChange}
-//                   error={errors.email}
-//                   touched={touched.email}
-//                   icon={Mail}
-//                   placeholder="your@gmail.com"
-//                 />
-
-//                 <ModernInput
-//                   label="Mobile Number"
-//                   type="text"
-//                   name="mobile"
-//                   value={formData.mobile}
-//                   onChange={handleChange}
-//                   error={errors.mobile}
-//                   touched={touched.mobile}
-//                   icon={Phone}
-//                   placeholder="9876543210"
-//                 />
-//               </div>
-
-//               {/* Password and Confirm Password on same line */}
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                 <ModernInput
-//                   label="Password"
-//                   type={showPassword ? "text" : "password"}
-//                   name="password"
-//                   value={formData.password}
-//                   onChange={handleChange}
-//                   error={errors.password}
-//                   touched={touched.password}
-//                   icon={Lock}
-//                   showPassword={showPassword}
-//                   onTogglePassword={() => setShowPassword(!showPassword)}
-//                   hasToggle={true}
-//                   placeholder="Enter password"
-//                 />
-
-//                 <ModernInput
-//                   label="Confirm Password"
-//                   type={showConfirmPassword ? "text" : "password"}
-//                   name="confirmPassword"
-//                   value={formData.confirmPassword}
-//                   onChange={handleChange}
-//                   error={errors.confirmPassword}
-//                   touched={touched.confirmPassword}
-//                   icon={Lock}
-//                   showPassword={showConfirmPassword}
-//                   onTogglePassword={() => setShowConfirmPassword(!showConfirmPassword)}
-//                   hasToggle={true}
-//                   placeholder="Confirm password"
-//                 />
-//               </div>
-
-//               {/* Terms */}
-//               <div className="flex items-center space-x-2">
-//                 <input
-//                   type="checkbox"
-//                   id="terms"
-//                   className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
-//                 />
-//                 <label htmlFor="terms" className="text-sm text-gray-600">
-//                   I agree to the{" "}
-//                   <a href="#" className="text-emerald-600 hover:text-emerald-700 font-medium">
-//                     Terms of Service
-//                   </a>{" "}
-//                   and{" "}
-//                   <a href="#" className="text-emerald-600 hover:text-emerald-700 font-medium">
-//                     Privacy Policy
-//                   </a>
-//                 </label>
-//               </div>
-
-//               {/* Submit Button */}
-//               <button
-//                 onClick={handleSubmit}
-//                 disabled={loading}
-//                 className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 disabled:from-emerald-400 disabled:to-teal-500 text-white py-3 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-//               >
-//                 {loading ? (
-//                   <div className="flex items-center space-x-2">
-//                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-//                     <span>Creating Account...</span>
-//                   </div>
-//                 ) : (
-//                   <>
-//                     <span>Create Account</span>
-//                     <Smartphone size={20} />
-//                   </>
-//                 )}
-//               </button>
-//             </div>
-
-//             {/* Footer */}
-//             <p className="mt-8 text-center text-gray-600">
-//               Already have an account?{" "}
-//               <a href="#" className="text-emerald-600 hover:text-emerald-700 font-semibold hover:underline">
-//                 Sign In
-//               </a>
-//             </p>
-//           </div>
-//         </div>
-
-//         {/* Custom API Message Toast */}
-//         {apiMessage && (
-//           <CustomToast
-//             message={apiMessage.message}
-//             type={apiMessage.type}
-//             onClose={() => setApiMessage(null)}
-//           />
-//         )}
-//       </div>
-
-//       <style jsx>{`
-//         @keyframes slide-in {
-//           from {
-//             transform: translateX(100%);
-//             opacity: 0;
-//           }
-//           to {
-//             transform: translateX(0);
-//             opacity: 1;
-//           }
-//         }
-        
-//         .animate-slide-in {
-//           animation: slide-in 0.3s ease-out;
-//         }
-//       `}</style>
-//     </>
-//   );
-// }

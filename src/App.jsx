@@ -24,9 +24,8 @@ const POPULAR_COUNTRIES = [
   "france",
 ];
 
-const ITEMS_PER_PAGE = 20; // Show 20 countries per page for better performance
+const ITEMS_PER_PAGE = 20; 
 
-// Hero slideshow images
 const HERO_IMAGES = [
   {
     src: heroImage1,
@@ -134,7 +133,7 @@ function LoadMoreButton({ onClick, isLoading, hasMore }) {
         onClick={onClick}
         disabled={isLoading}
         style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-        className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-3 rounded-xl font-semibold hover:from-emrald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading ? (
           <div className="flex items-center space-x-2">
@@ -491,7 +490,7 @@ function App() {
 
           {/* CTA Button */}
           <div className="animate-on-load">
-            <button className="bg-white text-purple-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:scale-105 transform">
+            <button className="bg-white text-teal-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:scale-105 transform">
               Explore eSIM Plans
             </button>
           </div>
@@ -519,8 +518,8 @@ function App() {
             </div>
 
             <div className="relative">
-              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-orange-50 to-transparent z-10 pointer-events-none"></div>
-              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-orange-50 to-transparent z-10 pointer-events-none"></div>
+              <div className=""></div>
+              <div className=""></div>
 
               <PopularCarousel
                 countries={popularCountries}
@@ -531,10 +530,10 @@ function App() {
         </section>
       )}
       <section className="relative py-16 px-6 md:px-12 lg:px-20 bg-white">
-        <div className="border-2 border-blue-500 rounded-xl p-4 bg-gradient-to-br from-orange-50 to-red-50 shadow-lg">
-          <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-orange-50 to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-orange-50 to-transparent z-10 pointer-events-none"></div>
+        <div className="border-2 border-blue-500 rounded-xl p-8 bg-gradient-to-br from-blue-200 to-darkblue-500 shadow-lg ">
+          <div className="relative ">
+            <div className=""></div>
+            <div className=""></div>
 
             <RegionWiseESIM jsx={true} />
           </div>
@@ -610,7 +609,6 @@ function App() {
               </p>
             </div>
 
-            {/* Enhanced Search Bar */}
             <div ref={searchRef} className="flex justify-center mb-16">
               <div className="relative w-full max-w-2xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur-sm opacity-50"></div>
@@ -638,7 +636,6 @@ function App() {
           </div>
         </div>
 
-        {/* Alphabetical Pagination */}
         {isSectionVisible && (
           <AlphabeticalPagination
             selectedLetter={selectedLetter}
@@ -646,9 +643,7 @@ function App() {
             availableLetters={availableLetters}
           />
         )}
-        {/* <RegionWiseESIM jsx={true}/> */}
-        {/* <RegionWiseESIM /> */}
-        {/* Filter Info */}
+
         <div className="mt-8 mb-4 text-center">
           <p className="text-gray-600">
             {selectedLetter === "ALL"
@@ -666,20 +661,17 @@ function App() {
             <CountriesGridSkeleton />
           ) : (
             <>
-              <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4">
+              <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4 ">
                 {displayedCountries.map((country, idx) => (
                   <EsimCountryCard
                     key={`${country.countryCode}-${idx}`}
                     country={country}
                     dataLabel="1 GB to UNLIMITED DATA"
-                    // reviews={8}
-                    // price={499}
                     onBuy={handleOnBuy}
                   />
                 ))}
               </div>
 
-              {/* Load More Button */}
               <LoadMoreButton
                 onClick={handleLoadMore}
                 isLoading={isLoadingMore}
@@ -706,7 +698,7 @@ function App() {
       </section>
 
       {/* Footer CTA */}
-      <section className="relative py-24 px-6 text-center bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white overflow-hidden">
+      <section className="relative py-24 px-6 text-center bg-gradient-to-r from-emerald-500 via-green-600 to-teal-600 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative z-10 max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -715,7 +707,7 @@ function App() {
           <p className="text-xl mb-8 opacity-90">
             Join millions of travelers who trust our eSIM solutions
           </p>
-          <button className="bg-white text-purple-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-colors duration-300 shadow-2xl">
+          <button className="bg-white text-teal-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-colors duration-300 shadow-2xl">
             Get Started Now
           </button>
         </div>

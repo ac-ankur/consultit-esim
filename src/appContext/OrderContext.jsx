@@ -25,7 +25,6 @@ export const OrdersProvider = ({ children }) => {
         },
       })
         .then(response => {
-          // console.log(response.data.data)
           setOrders(response?.data?.data.reverse());
         })
         .catch(error => {

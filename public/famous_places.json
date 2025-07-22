@@ -1,0 +1,1274 @@
+[
+  {
+    "name": "Afghanistan",
+    "path": "/countryImages/Afghanistan.jpg",
+    "code": "AF"
+  },
+  {
+    "name": "Aland Islands",
+    "path": "/countryImages/AlandIsland.jpg",
+    "code": "AX"
+  },
+  {
+    "name": "Albania",
+    "path": "/countryImages/Albania.jpg",
+    "code": "AL"
+  },
+  {
+    "name": "Algeria",
+    "path": "/countryImages/Algeria.jpg",
+    "code": "DZ"
+  },
+  {
+    "name": "American Samoa",
+    "path": "/countryImages/AmericanSamoa.jpg",
+    "code": "AS"
+  },
+  {
+    "name": "Andorra",
+    "path": "/countryImages/Andorra.jpg",
+    "code": "AD"
+  },
+  {
+    "name": "Angola",
+    "path": "/countryImages/Angola.jpg",
+    "code": "AO"
+  },
+  {
+    "name": "Anguilla",
+    "path": "/countryImages/Anguilla.jpg",
+    "code": "AI"
+  },
+  {
+    "name": "Antarctica",
+    "path": "/countryImages/Antarctica.jpg",
+    "code": "AQ"
+  },
+  {
+    "name": "Antigua and Barbuda",
+    "path": "/countryImages/AntiguaandBarbuda.jpg",
+    "code": "AG"
+  },
+  {
+    "name": "Argentina",
+    "path": "/countryImages/Argentina.jpg",
+    "code": "AR"
+  },
+  {
+    "name": "Armenia",
+    "path": "/countryImages/Armenia.jpg",
+    "code": "AM"
+  },
+  {
+    "name": "Aruba",
+    "path": "/countryImages/Aruba.jpg",
+    "code": "AW"
+  },
+  {
+    "name": "Australia",
+    "path": "/countryImages/Australia.jpg",
+    "code": "AU"
+  },
+  {
+    "name": "Austria",
+    "path": "/countryImages/Austria.jpg",
+    "code": "AT"
+  },
+  {
+    "name": "Azerbaijan",
+    "path": "/countryImages/Azerbaijan.jpg",
+    "code": "AZ"
+  },
+  {
+    "name": "The Bahamas",
+    "path": "/countryImages/Bahamasn.jpg",
+    "code": "BS"
+  },
+  {
+    "name": "Bahrain",
+    "path": "/countryImages/Bahrain.jpg",
+    "code": "BH"
+  },
+  {
+    "name": "Bangladesh",
+    "path": "/countryImages/Bangladesh.jpg",
+    "code": "BD"
+  },
+  {
+    "name": "Barbados",
+    "path": "/countryImages/Barbados.jpg",
+    "code": "BB"
+  },
+  {
+    "name": "Belgium",
+    "path": "/countryImages/Belgium.jpg",
+    "code": "BE"
+  },
+  {
+    "name": "Belize",
+    "path": "/countryImages/Belize.jpg",
+    "code": "BZ"
+  },
+  {
+    "name": "Belarus",
+    "path": "/countryImages/Bellarus.jpg",
+    "code": "BY"
+  },
+  {
+    "name": "Benin",
+    "path": "/countryImages/Benin.jpg",
+    "code": "BJ"
+  },
+  {
+    "name": "Bermuda",
+    "path": "/countryImages/Bermuda.jpg",
+    "code": "BM"
+  },
+  {
+    "name": "Bhutan",
+    "path": "/countryImages/Bhutan.jpg",
+    "code": "BT"
+  },
+  {
+    "name": "Bolivia",
+    "path": "/countryImages/Bolivia.jpg",
+    "code": "BO"
+  },
+  {
+    "name": "Bonaire, Sint Eustatius and Saba",
+    "path": "/countryImages/Bonaire,SintEustatiusandSaba.jpg",
+    "code": "BQ"
+  },
+  {
+    "name": "Bosnia and Herzegovina",
+    "path": "/countryImages/BosniaandHerzegovina.jpg",
+    "code":"BA"
+  },
+  {
+      "name": "Botswana",
+          
+    "path": "/countryImages/Botswana.jpg",
+    "code": "BW"
+  },
+  {
+      "name": "Bouvet Island",
+          
+    "path": "/countryImages/BouvetIsland.jpg",
+    "code": "Bv"
+  },
+  {
+    "name": "Brazil",
+    "path": "/countryImages/Brazil.jpg",
+    "code": "BR"
+  },
+  {
+    "name": "British Indian Ocean Territory",
+    "path": "/countryImages/British_IndianOceanTerritory.jpg",
+    "code": "IO"
+  },
+  {
+    "name": "Brunei",
+    "path": "/countryImages/Brunei.jpg",
+    "code": "N/A"
+  },
+  {
+    "name": "Bulgaria",
+    "path": "/countryImages/Bulgaria.jpg",
+    "code": "BG"
+  },
+  {
+    "name": "Burkina Faso",
+    "path": "/countryImages/BurkinaFaso.jpg",
+    "code": "BF"
+  },
+  {
+    "name": "Burundi",
+    "path": "/countryImages/Burundi.jpg",
+    "code": "BI"
+  },
+  {
+    "name": "Cambodia",
+    "path": "/countryImages/Cambodia.jpg",
+    "code": "KH"
+  },
+  {
+    "name": "Cameroon",
+    "path": "/countryImages/Cameroon.jpg",
+    "code": "CM"
+  },
+  {
+    "name": "Canada",
+    "path": "/countryImages/Canada.jpg",
+    "code": "CA"
+  },
+  {
+    "name": "Cape Verde",
+    "path": "/countryImages/CapeVerde.jpg",
+    "code": "N/A"
+  },
+  {
+    "name": "Cayman Islands",
+    "path": "/countryImages/CaymanIslands.jpg",
+    "code": "KY"
+  },
+  {
+    "name": "Central African Republic",
+    "path": "/countryImages/CentralAfricanRepublic.jpg",
+    "code": "CF"
+  },
+  {
+    "name": "Chad",
+    "path": "/countryImages/Chad.jpg",
+    "code": "TD"
+  },
+  {
+    "name": "Chile",
+    "path": "/countryImages/Chile.jpg",
+    "code": "CL"
+  },
+  {
+    "name": "China",
+    "path": "/countryImages/China.jpg",
+    "code": "CN"
+  },
+  {
+    "name": "Christmas Island",
+    "path": "/countryImages/ChristmasIsland.jpg",
+    "code": "CX"
+  },
+  {
+    "name": "Cocos (Keeling) Islands",
+    "path": "/countryImages/Cocos(Keeling)Islands.jpg",
+    "code": "CC"
+  },
+  {
+    "name": "Colombia",
+    "path": "/countryImages/Colombia.jpg",
+    "code": "CO"
+  },
+  {
+    "name": "Comoros",
+    "path": "/countryImages/Comoros.jpg",
+    "code": "KM"
+  },
+  {
+    "name": "Congo",
+    "path": "/countryImages/Congo.jpg",
+    "code": "CG"
+  },
+  {
+    "name": "Congo, Democratic Republic",
+    "path": "/countryImages/CongoDemocraticRepublic.jpg",
+    "code": "N/A"
+  },
+  {
+    "name": "Cook Islands",
+    "path": "/countryImages/CookIslands.jpg",
+    "code": "CK"
+  },
+  {
+    "name": "Costa Rica",
+    "path": "/countryImages/CostaRica.jpg",
+    "code": "CR"
+  },
+  {
+    "name": "Cote D'Ivoire (Ivory Coast)",
+    "path": "/countryImages/CoteD'Ivoire(Ivory Coast).jpg",
+    "code": "CI"
+  },
+  {
+    "name": "Croatia",
+    "path": "/countryImages/Croatia.jpg",
+    "code": "HR"
+  },
+  {
+    "name": "Cuba",
+    "path": "/countryImages/Cuba.jpg",
+    "code": "CU"
+  },
+  {
+    "name": "Curaçao",
+    "path": "/countryImages/Curaçao.jpg",
+    "code": "CW"
+  },
+  {
+    "name": "Cyprus",
+    "path": "/countryImages/Cyprus.jpg",
+    "code": "CY"
+  },
+  {
+    "name": "Czech Republic",
+    "path": "/countryImages/CzechRepublic.jpg",
+    "code": "CZ"
+  },
+  {
+    "name": "Denmark",
+    "path": "/countryImages/Denmark.jpg",
+    "code": "DK"
+  },
+  {
+    "name": "Djibouti",
+    "path": "/countryImages/Djibouti.jpg",
+    "code": "DJ"
+  },
+  {
+    "name": "Dominica",
+    "path": "/countryImages/Dominica.jpg",
+    "code": "DM"
+  },
+  {
+    "name": "Dominican Republic",
+    "path": "/countryImages/DominicanRepublic.jpg",
+    "code": "DO"
+  },
+  {
+    "name": "Democratic Republic of the Congo",
+    "path": "/countryImages/DemocraticRepublicoftheCongo.jpg",
+    "code": "CD"
+  },
+  {
+    "name": "East Timor",
+    "path": "/countryImages/EastTimor.jpg",
+    "code": "TL"
+  },
+  {
+    "name": "Ecuador",
+    "path": "/countryImages/Ecuador.jpg",
+    "code": "EC"
+  },
+  {
+    "name": "Egypt",
+    "path": "/countryImages/Egypt.jpg",
+    "code": "EG"
+  },
+  {
+    "name": "El Salvador",
+    "path": "/countryImages/ElSalvador.jpg",
+    "code": "SV"
+  },
+  {
+    "name": "Equatorial Guinea",
+    "path": "/countryImages/EquatorialGuinea.jpg",
+    "code": "GQ"
+  },
+  {
+    "name": "Eritrea",
+    "path": "/countryImages/Eritrea.jpg",
+    "code": "ER"
+  },
+  {
+    "name": "Estonia",
+    "path": "/countryImages/Estonia.jpg",
+    "code": "EE"
+  },
+  {
+    "name": "Ethiopia",
+    "path": "/countryImages/Ethiopia.jpg",
+    "code": "ET"
+  },
+  {
+    "name": "Falkland Islands",
+    "path": "/countryImages/FalklandIslands.jpg",
+    "code": "FK"
+  },
+  {
+    "name": "Faroe Islands",
+    "path": "/countryImages/faroe-islands.jpg",
+    "code": "FO"
+  },
+  {
+    "name": "Fiji Islands",
+    "path": "/countryImages/FijiIslands.jpg",
+    "code": "FJ"
+  },
+  {
+    "name": "Finland",
+    "path": "/countryImages/Finland.jpg",
+    "code": "FI"
+  },
+  {
+    "name": "France",
+    "path": "/countryImages/France.jpg",
+    "code": "FR"
+  },
+  {
+    "name": "French Guiana",
+    "path": "/countryImages/FrenchGuiana.jpg",
+    "code": "GF"
+  },
+  {
+    "name": "French Polynesia",
+    "path": "/countryImages/FrenchPolynesia.jpg",
+    "code": "PF"
+  },
+  {
+    "name": "French Southern Territories",
+    "path": "/countryImages/FrenchSouthernTerritories.jpg",
+    "code": "TF"
+  },
+  {
+    "name": "Gabon",
+    "path": "/countryImages/Gabon.jpg",
+    "code": "GA"
+  },
+  {
+    "name": "Gambia The",
+    "path": "/countryImages/Gambia.jpg",
+    "code": "GM"
+  },
+  {
+    "name": "Georgia",
+    "path": "/countryImages/Georgia.jpg",
+    "code": "GE"
+  },
+  {
+    "name": "Germany",
+    "path": "/countryImages/Germany.jpg",
+    "code": "DE"
+  },
+  {
+    "name": "Ghana",
+    "path": "/countryImages/Ghana.jpg",
+    "code": "GH"
+  },
+  {
+    "name": "Gibraltar",
+    "path": "/countryImages/Gibraltar.jpg",
+    "code": "GI"
+  },
+  {
+    "name": "Greece",
+    "path": "/countryImages/Greece.jpg",
+    "code": "GR"
+  },
+  {
+    "name": "Greenland",
+    "path": "/countryImages/Greenland.jpg",
+    "code": "GL"
+  },
+  {
+    "name": "Grenada",
+    "path": "/countryImages/Grenada.jpg",
+    "code": "GD"
+  },
+  {
+    "name": "Guadeloupe",
+    "path": "/countryImages/Guadeloupe.jpg",
+    "code": "GP"
+  },
+  {
+    "name": "Guam",
+    "path": "/countryImages/Guam.jpg",
+    "code": "GU"
+  },
+  {
+    "name": "Guatemala",
+    "path": "/countryImages/Guatemala.jpg",
+    "code": "GT"
+  },
+  {
+    "name": "Guernsey and Alderney",
+    "path": "/countryImages/GuernseyandAlderney.jpg",
+    "code": "GG"
+  },
+  {
+    "name": "Guinea",
+    "path": "/countryImages/Guinea.jpg",
+    "code": "GN"
+  },
+  {
+    "name": "Guinea-Bissau",
+    "path": "/countryImages/Guinea-Bissau.jpg",
+    "code": "GW"
+  },
+  {
+    "name": "Guyana",
+    "path": "/countryImages/Guyana.jpg",
+    "code": "GY"
+  },
+  {
+    "name": "Haiti",
+    "path": "/countryImages/Haiti.jpg",
+    "code": "HT"
+  },
+  {
+    "name": "Heard Island and McDonald Islands",
+    "path": "/countryImages/HeardIsland andMcDonaldIslands.jpg",
+    "code": "HM"
+  },
+  {
+    "name": "Honduras",
+    "path": "/countryImages/Honduras.jpg",
+    "code": "HN"
+  },
+  {
+    "name": "Hong Kong S.A.R.",
+    "path": "/countryImages/HongKongS.A.R..jpg",
+    "code": "HK"
+  },
+  {
+    "name": "Hungary",
+    "path": "/countryImages/Hungary.jpg",
+    "code": "HU"
+  },
+  {
+    "name": "Iceland",
+    "path": "/countryImages/Iceland.jpg",
+    "code": "IS"
+  },
+  {
+    "name": "India",
+    "path": "/countryImages/India.jpg",
+    "code": "IN"
+  },
+  {
+    "name": "Indonesia",
+    "path": "/countryImages/Indonesia.jpg",
+    "code": "ID"
+  },
+  {
+    "name": "Iran",
+    "path": "/countryImages/Iran.jpg",
+    "code": "IR"
+  },
+  {
+    "name": "Iraq",
+    "path": "/countryImages/Iraq.jpg",
+    "code": "IQ"
+  },
+  {
+    "name": "Ireland",
+    "path": "/countryImages/Ireland.jpg",
+    "code": "IE"
+  },
+  {
+    "name": "Man (Isle of)",
+    "path": "/countryImages/IsleofMan.jpg",
+    "code": "IM"
+  },
+  {
+    "name": "Israel",
+    "path": "/countryImages/Israel.jpg",
+    "code": "IL"
+  },
+  {
+    "name": "Italy",
+    "path": "/countryImages/Italy.jpg",
+    "code": "IT"
+  },
+  {
+    "name": "Jamaica",
+    "path": "/countryImages/Jamaica.jpg",
+    "code": "JM"
+  },
+  {
+    "name": "Japan",
+    "path": "/countryImages/Japan.jpg",
+    "code": "JP"
+  },
+  {
+    "name": "Jersey",
+    "path": "/countryImages/Jersey.jpg",
+    "code": "JE"
+  },
+  {
+    "name": "Jordan",
+    "path": "/countryImages/Jordan.jpg",
+    "code": "JO"
+  },
+  {
+    "name": "Kazakhstan",
+    "path": "/countryImages/Kazakhstan.jpg",
+    "code": "KZ"
+  },
+  {
+    "name": "Kenya",
+    "path": "/countryImages/Kenya.jpg",
+    "code": "KE"
+  },
+  {
+    "name": "Kiribati",
+    "path": "/countryImages/Kiribati.jpg",
+    "code": "KI"
+  },
+  {
+    "name": "Kuwait",
+    "path": "/countryImages/Kuwait.jpg",
+    "code": "KW"
+  },
+  {
+    "name": "Kyrgyzstan",
+    "path": "/countryImages/Kyrgyzstan.jpg",
+    "code": "KG"
+  },
+  {
+    "name": "Laos",
+    "path": "/countryImages/Laos.jpg",
+    "code": "LA"
+  },
+  {
+    "name": "Latvia",
+    "path": "/countryImages/Latvia.jpg",
+    "code": "LV"
+  },
+  {
+    "name": "Lebanon",
+    "path": "/countryImages/Lebanon.jpg",
+    "code": "LB"
+  },
+  {
+    "name": "Lesotho",
+    "path": "/countryImages/Lesotho.jpg",
+    "code": "LS"
+  },
+  {
+    "name": "Liberia",
+    "path": "/countryImages/Liberia.jpg",
+    "code": "LR"
+  },
+  {
+    "name": "Libya",
+    "path": "/countryImages/Libya.jpg",
+    "code": "LY"
+  },
+  {
+    "name": "Liechtenstein",
+    "path": "/countryImages/Liechtenstein.jpg",
+    "code": "LI"
+  },
+  {
+    "name": "Lithuania",
+    "path": "/countryImages/Lithuania.jpg",
+    "code": "LT"
+  },
+  {
+    "name": "Luxembourg",
+    "path": "/countryImages/Luxembourg.jpg",
+    "code": "LU"
+  },
+  {
+    "name": "Macau S.A.R.",
+    "path": "/countryImages/Macau S.A.R..jpg",
+    "code": "MO"
+  },
+  {
+    "name": "Madagascar",
+    "path": "/countryImages/Madagascar.jpg",
+    "code": "MG"
+  },
+  {
+    "name": "Malawi",
+    "path": "/countryImages/Malawi.jpg",
+    "code": "MW"
+  },
+  {
+    "name": "Malaysia",
+    "path": "/countryImages/Malaysia.jpg",
+    "code": "MY"
+  },
+  {
+    "name": "Maldives",
+    "path": "/countryImages/Maldives.jpg",
+    "code": "MV"
+  },
+  {
+    "name": "Mali",
+    "path": "/countryImages/Mali.jpg",
+    "code": "ML"
+  },
+  {
+    "name": "Malta",
+    "path": "/countryImages/Malta.jpg",
+    "code": "MT"
+  },
+  {
+    "name": "Marshall Islands",
+    "path": "/countryImages/Marshall Islands.jpg",
+    "code": "MH"
+  },
+  {
+    "name": "Martinique",
+    "path": "/countryImages/Martinique.jpg",
+    "code": "MQ"
+  },
+  {
+    "name": "Mauritania",
+    "path": "/countryImages/Mauritania.jpg",
+    "code": "MR"
+  },
+  {
+    "name": "Mauritius",
+    "path": "/countryImages/Mauritius.jpg",
+    "code": "MU"
+  },
+  {
+    "name": "Mayotte",
+    "path": "/countryImages/Mayotte.jpg",
+    "code": "YT"
+  },
+  {
+    "name": "Mexico",
+    "path": "/countryImages/Mexico.jpg",
+    "code": "MX"
+  },
+  {
+    "name": "Micronesia",
+    "path": "/countryImages/Micronesia.jpg",
+    "code": "FM"
+  },
+  {
+    "name": "Moldova",
+    "path": "/countryImages/Moldova.jpg",
+    "code": "MD"
+  },
+  {
+    "name": "Monaco",
+    "path": "/countryImages/Monaco.jpg",
+    "code": "MC"
+  },
+  {
+    "name": "Mongolia",
+    "path": "/countryImages/Mongolia.jpg",
+    "code": "MN"
+  },
+  {
+    "name": "Montenegro",
+    "path": "/countryImages/Montenegro.jpg",
+    "code": "ME"
+  },
+  {
+    "name": "Montserrat",
+    "path": "/countryImages/Montserrat.jpg",
+    "code": "MS"
+  },
+  {
+    "name": "Morocco",
+    "path": "/countryImages/Morocco.jpg",
+    "code": "MA"
+  },
+  {
+    "name": "Mozambique",
+    "path": "/countryImages/Mozambique.jpg",
+    "code": "MZ"
+  },
+  {
+    "name": "Myanmar",
+    "path": "/countryImages/Myanmar.jpg",
+    "code": "MM"
+  },
+  {
+    "name": "Namibia",
+    "path": "/countryImages/Namibia.jpg",
+    "code": "NA"
+  },
+  {
+    "name": "Nauru",
+    "path": "/countryImages/Nauru.jpg",
+    "code": "NR"
+  },
+  {
+    "name": "Nepal",
+    "path": "/countryImages/Nepal.jpg",
+    "code": "NP"
+  },
+  {
+    "name": "Netherlands",
+    "path": "/countryImages/Netherlands.jpg",
+    "code": "NL"
+  },
+  {
+    "name": "New Caledonia",
+    "path": "/countryImages/NewCaledonia.jpg",
+    "code": "NC"
+  },
+  {
+    "name": "New Zealand",
+    "path": "/countryImages/NewZealand.jpg",
+    "code": "NZ"
+  },
+  {
+    "name": "Nicaragua",
+    "path": "/countryImages/Nicaragua.jpg",
+    "code": "NI"
+  },
+  {
+    "name": "Niger",
+    "path": "/countryImages/Niger.jpg",
+    "code": "NE"
+  },
+  {
+    "name": "Nigeria",
+    "path": "/countryImages/Nigeria.jpg",
+    "code": "NG"
+  },
+  {
+    "name": "Niue",
+    "path": "/countryImages/Niue.jpg",
+    "code": "NU"
+  },
+  {
+    "name": "Norfolk Island",
+    "path": "/countryImages/NorfolkIsland.jpg",
+    "code": "NF"
+  },
+  {
+    "name": "North Korea",
+    "path": "/countryImages/NorthKorea.jpg",
+    "code": "KP"
+  },
+  {
+    "name": "North Macedonia",
+    "path": "/countryImages/NorthMacedonia.jpg",
+    "code": "MK"
+  },
+  {
+    "name": "Northern Mariana Islands",
+    "path": "/countryImages/NorthernMarianaIslands.jpg",
+    "code": "MP"
+  },
+  {
+    "name": "Norway",
+    "path": "/countryImages/Norway.jpg",
+    "code": "NO"
+  },
+  {
+    "name": "Oman",
+    "path": "/countryImages/Oman.jpg",
+    "code": "OM"
+  },
+  {
+    "name": "Pakistan",
+    "path": "/countryImages/Pakistan.jpg",
+    "code": "PK"
+  },
+  {
+    "name": "Palau",
+    "path": "/countryImages/Palau.jpg",
+    "code": "PW"
+  },
+  {
+    "name": "Palestinian Territory Occupied",
+    "path": "/countryImages/PalestinianTerritoryOccupied.jpg",
+    "code": "PS"
+  },
+  {
+    "name": "Panama",
+    "path": "/countryImages/Panama.jpg",
+    "code": "PA"
+  },
+  {
+    "name": "Papua New Guinea",
+    "path": "/countryImages/PapuanewGuinea.jpg",
+    "code": "PG"
+  },
+  {
+    "name": "Paraguay",
+    "path": "/countryImages/Paraguay.jpg",
+    "code": "PY"
+  },
+  {
+    "name": "Peru",
+    "path": "/countryImages/Peru.jpg",
+    "code": "PE"
+  },
+  {
+    "name": "Philippines",
+    "path": "/countryImages/Philippines.jpg",
+    "code": "PH"
+  },
+  {
+    "name": "Pitcairn Island",
+    "path": "/countryImages/PitcairnIsland.jpg",
+    "code": "PN"
+  },
+  {
+    "name": "Poland",
+    "path": "/countryImages/Poland.jpg",
+    "code": "PL"
+  },
+  {
+    "name": "Portugal",
+    "path": "/countryImages/Portugal.jpg",
+    "code": "PT"
+  },
+  {
+    "name": "Puerto Rico",
+    "path": "/countryImages/PuertoRico.jpg",
+    "code": "PR"
+  },
+  {
+    "name": "Qatar",
+    "path": "/countryImages/Qatar.jpg",
+    "code": "QA"
+  },
+  {
+    "name": "Reunion",
+    "path": "/countryImages/Reunion.jpg",
+    "code": "RE"
+  },
+  {
+    "name": "Romania",
+    "path": "/countryImages/Romania.jpg",
+    "code": "RO"
+  },
+  {
+    "name": "Russia",
+    "path": "/countryImages/Russia.jpg",
+    "code": "RU"
+  },
+  {
+    "name": "Rwanda",
+    "path": "/countryImages/Rwanda.jpg",
+    "code": "RW"
+  },
+  {
+    "name": "Saint Helena",
+    "path": "/countryImages/SaintHelena.jpg",
+    "code": "SH"
+  },
+  {
+    "name": "Saint Kitts and Nevis",
+    "path": "/countryImages/SaintKittsAndNevis.jpg",
+    "code": "KN"
+  },
+  {
+    "name": "Saint Lucia",
+    "path": "/countryImages/Saint Lucia.jpg",
+    "code": "LC"
+  },
+  {
+    "name": "Saint Pierre and Miquelon",
+    "path": "/countryImages/SaintPierreand Miquelon.jpg",
+    "code": "PM"
+  },
+  {
+    "name": "Saint Vincent and the Grenadines",
+    "path": "/countryImages/SaintVincentAndTheGrenadines.jpg",
+    "code": "VC"
+  },
+  {
+    "name": "Saint-Barthelemy",
+    "path": "/countryImages/Saint-Barthelemy.jpg",
+    "code": "BL"
+  },
+  {
+    "name": "Saint-Martin (French part)",
+    "path": "/countryImages/Saint-Martin (French part).jpg",
+    "code": "MF"
+  },
+  {
+    "name": "Samoa",
+    "path": "/countryImages/Samoa.jpg",
+    "code": "WS"
+  },
+  {
+    "name": "San Marino",
+    "path": "/countryImages/San Marino.jpg",
+    "code": "SM"
+  },
+  {
+    "name": "Sao Tome and Principe",
+    "path": "/countryImages/Sao Tome and Principe.jpg",
+    "code": "ST"
+  },
+  {
+    "name": "Saudi Arabia",
+    "path": "/countryImages/Saudi Arabia.jpg",
+    "code": "SA"
+  },
+  {
+    "name": "Senegal",
+    "path": "/countryImages/Senegal.jpg",
+    "code": "SN"
+  },
+  {
+    "name": "Serbia",
+    "path": "/countryImages/Serbia.jpg",
+    "code": "RS"
+  },
+  {
+    "name": "Seychelles",
+    "path": "/countryImages/Seychelles.jpg",
+    "code": "SC"
+  },
+  {
+    "name": "Sierra Leone",
+    "path": "/countryImages/Sierra Leone.jpg",
+    "code": "SL"
+  },
+  {
+    "name": "Singapore",
+    "path": "/countryImages/Singapore.jpg",
+    "code": "SG"
+  },
+  {
+    "name": "Sint Maarten (Dutch part)",
+    "path": "/countryImages/Sint Maarten (Dutch part).jpg",
+    "code": "SX"
+  },
+  {
+    "name": "Slovakia",
+    "path": "/countryImages/Slovakia.jpg",
+    "code": "SK"
+  },
+  {
+    "name": "Slovenia",
+    "path": "/countryImages/Slovenia.jpg",
+    "code": "SI"
+  },
+  {
+    "name": "Solomon Islands",
+    "path": "/countryImages/Solomon Islands.jpg",
+    "code": "SB"
+  },
+  {
+    "name": "Somalia",
+    "path": "/countryImages/Somalia.jpg",
+    "code": "SO"
+  },
+  {
+    "name": "South Africa",
+    "path": "/countryImages/South Africa.jpg",
+    "code": "ZA"
+  },
+  {
+    "name": "South Georgia",
+    "path": "/countryImages/South Georgia.jpg",
+    "code": "GS"
+  },
+  {
+    "name": "South Korea",
+    "path": "/countryImages/South Korea.jpg",
+    "code": "KR"
+  },
+  {
+    "name": "South Sudan",
+    "path": "/countryImages/South Sudan.jpg",
+    "code": "SS"
+  },
+  {
+    "name": "Spain",
+    "path": "/countryImages/Spain.jpg",
+    "code": "ES"
+  },
+  {
+    "name": "Sri Lanka",
+    "path": "/countryImages/Sri Lanka.jpg",
+    "code": "LK"
+  },
+  {
+    "name": "Sudan",
+    "path": "/countryImages/Sudan.jpg",
+    "code": "SD"
+  },
+  {
+    "name": "Suriname",
+    "path": "/countryImages/Suriname.jpg",
+    "code": "SR"
+  },
+  {
+    "name": "Svalbard and Jan Mayen Islands",
+    "path": "/countryImages/Svalbard And Jan Mayen Islands.jpg",
+    "code": "SJ"
+  },
+  {
+    "name": "Swaziland",
+    "path": "/countryImages/Swaziland.jpg",
+    "code": "SZ"
+  },
+  {
+    "name": "Sweden",
+    "path": "/countryImages/Sweden.jpg",
+    "code": "SE"
+  },
+  {
+    "name": "Switzerland",
+    "path": "/countryImages/Switzerland.jpg",
+    "code": "CH"
+  },
+  {
+    "name": "Syria",
+    "path": "/countryImages/Syria.jpg",
+    "code": "SY"
+  },
+  {
+    "name": "Taiwan",
+    "path": "/countryImages/Taiwan.jpg",
+    "code": "TW"
+  },
+  {
+    "name": "Tajikistan",
+    "path": "/countryImages/Tajikistan.jpg",
+    "code": "TJ"
+  },
+  {
+    "name": "Tanzania",
+    "path": "/countryImages/Tanzania.jpg",
+    "code": "TZ"
+  },
+  {
+    "name": "Thailand",
+    "path": "/countryImages/Thailand.jpg",
+    "code": "TH"
+  },
+  {
+    "name": "Togo",
+    "path": "/countryImages/Togo.jpg",
+    "code": "TG"
+  },
+  {
+    "name": "Tokelau",
+    "path": "/countryImages/Tokelau.jpg",
+    "code": "TK"
+  },
+  {
+    "name": "Tonga",
+    "path": "/countryImages/Tonga.jpg",
+    "code": "TO"
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "path": "/countryImages/Trinidad And Tobago.jpg",
+    "code": "TT"
+  },
+  {
+    "name": "Tunisia",
+    "path": "/countryImages/Tunisia.jpg",
+    "code": "TN"
+  },
+  {
+    "name": "Turkey",
+    "path": "/countryImages/Turkey.jpg",
+    "code": "TR"
+  },
+  {
+    "name": "Turkmenistan",
+    "path": "/countryImages/Turkmenistan.jpg",
+    "code": "TM"
+  },
+  {
+    "name": "Turks and Caicos Islands",
+    "path": "/countryImages/Turks And Caicos Islands.jpg",
+    "code": "TC"
+  },
+  {
+    "name": "Tuvalu",
+    "path": "/countryImages/Tuvalu.jpg",
+    "code": "TV"
+  },
+  {
+    "name": "Uganda",
+    "path": "/countryImages/Uganda.jpg",
+    "code": "UG"
+  },
+  {
+    "name": "Ukraine",
+    "path": "/countryImages/Ukraine.jpg",
+    "code": "UA"
+  },
+  {
+    "name": "United Arab Emirates",
+    "path": "/countryImages/United Arab Emirates.jpg",
+    "code": "AE"
+  },
+  {
+    "name": "United Kingdom",
+    "path": "/countryImages/UK.jpg",
+    "code": "GB"
+  },
+  {
+    "name": "United States",
+    "path": "/countryImages/US.jpg",
+    "code": "US"
+  },
+  {
+    "name": "United States Minor Outlying Islands",
+    "path": "/countryImages/United States Minor Outlying Islands.jpg",
+    "code": "UM"
+  },
+  {
+    "name": "Uruguay",
+    "path": "/countryImages/Uruguay.jpg",
+    "code": "UY"
+  },
+  {
+    "name": "Uzbekistan",
+    "path": "/countryImages/Uzbekistan.jpg",
+    "code": "UZ"
+  },
+  {
+    "name": "Vanuatu",
+    "path": "/countryImages/Vanuatu.jpg",
+    "code": "VU"
+  },
+  {
+    "name": "Vatican City State (Holy See)",
+    "path": "/countryImages/VaticanCityState(Holy See).jpg",
+    "code": "VA"
+  },
+  {
+    "name": "Venezuela",
+    "path": "/countryImages/Venezuela.jpg",
+    "code": "VE"
+  },
+  {
+    "name": "Vietnam",
+    "path": "/countryImages/Vietnam.jpg",
+    "code": "VN"
+  },
+  {
+    "name": "Virgin Islands (British)",
+    "path": "/countryImages/Virgin Islands (British).jpg",
+    "code": "VG"
+  },
+  {
+    "name": "Virgin Islands (Us)",
+    "path": "/countryImages/Virgin Islands (US).jpg",
+    "code": "VG"
+  },
+  {
+    "name": "Wallis And Futuna Islands",
+    "path": "/countryImages/Wallis And Futuna Islands.jpg",
+    "code": "WF"
+  },
+  {
+    "name": "Western Sahara",
+    "path": "/countryImages/Western Sahara.jpg",
+    "code": "EH"
+  },
+  {
+    "name": "Yemen",
+    "path": "/countryImages/Yemen.jpg",
+    "code": "YE"
+  },
+  {
+    "name": "Zambia",
+    "path": "/countryImages/Zambia.jpg",
+    "code": "ZM"
+  },
+  {
+    "name": "Zimbabwe",
+    "path": "/countryImages/Zimbabwe.jpg",
+    "code": "ZW"
+  },
+  {
+    "name": "Kosovo",
+    "path": "/countryImages/Kosovo.jpg",
+    "code": "XK"
+  },
+  {
+    "name": "Canary Island\n",
+    "path": "/countryImages/CanaryIsland.jpg",
+    "code": "IC"
+  },
+  {
+    "name": "Hawaii",
+    "path": "/countryImages/Hawaii.jpg",
+    "code": "US-HI"
+  },
+  {
+    "name": "French West Indies",
+    "path": "/countryImages/FrenchWestIndies.jpg",
+    "code": "GP"
+  }
+]

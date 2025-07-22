@@ -1,26 +1,32 @@
 import { useState, useEffect, useRef } from "react";
-import { Mail, CheckCircle, AlertCircle, X, ArrowLeft, RefreshCw } from "lucide-react";
+import { Mail, CheckCircle, AlertCircle, X, ArrowLeft, RefreshCw, Shield } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../appContext/UserContext";
 import apiClient from "../API/apiClient";
 
-
 // Custom Toast Component
 const CustomToast = ({ message, type, onClose }) => (
-  <div className={`fixed top-4 right-4 max-w-sm w-full bg-white rounded-lg shadow-lg border-l-4 ${
-    type === 'success' ? 'border-green-500' : 'border-red-500'
-  } p-4 flex items-center space-x-3 animate-slide-in z-50`}>
+  <div className={`fixed top-4 right-4 max-w-sm w-full bg-white rounded-xl shadow-2xl border border-gray-100 ${
+    type === 'success' ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-red-500'
+  } p-4 flex items-center space-x-3 animate-slide-in z-50 backdrop-blur-sm`}>
     {type === 'success' ? (
-      <CheckCircle className="text-green-500 flex-shrink-0" size={20} />
+      <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+        <CheckCircle className="text-emerald-500 flex-shrink-0" size={18} />
+      </div>
     ) : (
-      <AlertCircle className="text-red-500 flex-shrink-0" size={20} />
+      <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+        <AlertCircle className="text-red-500 flex-shrink-0" size={18} />
+      </div>
     )}
     <div className="flex-1">
-      <p className={`text-sm font-medium ${type === 'success' ? 'text-green-800' : 'text-red-800'}`}>
+      <p className={`text-sm font-medium ${type === 'success' ? 'text-emerald-800' : 'text-red-800'}`}>
         {message}
       </p>
     </div>
-    <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+    <button 
+      onClick={onClose} 
+      className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors"
+    >
       <X size={16} />
     </button>
   </div>
@@ -73,7 +79,7 @@ const OTPInput = ({ length = 6, onComplete, disabled = false }) => {
   };
 
   return (
-    <div className="flex justify-center space-x-3">
+    <div className="flex justify-center space-x-2">
       {otp.map((digit, index) => (
         <input
           key={index}
@@ -85,10 +91,12 @@ const OTPInput = ({ length = 6, onComplete, disabled = false }) => {
           onKeyDown={(e) => handleKeyDown(index, e)}
           onPaste={handlePaste}
           disabled={disabled}
-          className={`w-12 h-12 text-center text-lg font-semibold border-2 rounded-lg focus:outline-none transition-all duration-200 ${
+          className={`w-12 h-12 text-center text-xl font-bold border-2 rounded-xl focus:outline-none transition-all duration-200 ${
             disabled 
               ? 'bg-gray-100 border-gray-300 text-gray-400'
-              : 'bg-white border-gray-300 focus:border-blue-500 focus:shadow-md'
+              : digit 
+                ? 'bg-teal-50 border-teal-500 text-teal-700 shadow-md'
+                : 'bg-white border-gray-300 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 hover:border-teal-400'
           }`}
           maxLength="1"
         />
@@ -148,7 +156,7 @@ export default function VerifyEmailPage() {
     setApiMessage(null);
 
     try {
-      // Verify OTP
+     
       const response = await apiClient.post('/auth/verification/verify-otp', {
         value: email,
         otp: otpValue,
@@ -158,7 +166,7 @@ export default function VerifyEmailPage() {
       if (response.data) {
         showApiMessage('Email verified successfully! Redirecting...', 'success');
         
-        // Update user context with verified status
+       
         if (userData) {
           setUserInContext({
             ...userData,
@@ -213,88 +221,107 @@ export default function VerifyEmailPage() {
 
   return (
     <>
-      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-3">
-        <div className="relative bg-white rounded-xl shadow-2xl p-6 w-full max-w-md border border-gray-100">
-          {/* Back Button */}
-          <button
-            onClick={() => navigate('/signup')}
-            className="absolute top-4 left-4 p-2 text-gray-500 hover:text-gray-700 transition-colors duration-200"
-          >
-            <ArrowLeft size={20} />
-          </button>
-
-          {/* Header */}
-          <div className="text-center mb-8 mt-6">
-            <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Mail className="text-white" size={32} />
-            </div>
-            <h2 className="text-3xl font-bold text-gray-800">Verify Your Email</h2>
-            <p className="text-gray-600 mt-2">
-              We've sent a verification code to
-            </p>
-            <p className="text-blue-600 font-medium text-sm mt-1">
-              {email}
-            </p>
-          </div>
-
-          {/* OTP Input */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-4 text-center">
-              Enter 6-digit verification code
-            </label>
-            <OTPInput
-              length={6}
-              onComplete={handleOTPComplete}
-              disabled={loading}
-            />
-          </div>
-
-          {/* Resend Section */}
-          <div className="text-center mb-6">
-            <p className="text-gray-600 text-sm mb-3">
-              Didn't receive the code?
-            </p>
-            
-            {canResend ? (
+      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-teal-50 via-white to-teal-100 p-4">
+        <div className="w-full max-w-lg">
+          {/* Main verification card */}
+          <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-teal-100 overflow-hidden">
+            {/* Header section with gradient */}
+            <div className="bg-gradient-to-r from-teal-600 to-teal-700 px-8 py-8 text-center relative">
+              {/* Back Button */}
               <button
-                onClick={handleResendOTP}
-                disabled={resendLoading}
-                className="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center justify-center space-x-1 mx-auto transition-colors duration-200"
+                onClick={() => navigate('/signup')}
+                className="absolute top-4 left-4 p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 backdrop-blur-sm"
               >
-                {resendLoading ? (
-                  <>
-                    <RefreshCw className="animate-spin" size={16} />
-                    <span>Sending...</span>
-                  </>
-                ) : (
-                  <>
-                    <RefreshCw size={16} />
-                    <span>Resend Code</span>
-                  </>
-                )}
+                <ArrowLeft size={20} />
               </button>
-            ) : (
-              <p className="text-gray-500 text-sm">
-                Resend code in {countdown}s
+
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+                <Shield className="text-white" size={36} />
+              </div>
+              <h2 className="text-3xl font-bold text-white mb-2">Verify Your Email</h2>
+              <p className="text-teal-100 text-sm">
+                We've sent a verification code to
               </p>
-            )}
+              <div className="mt-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 inline-block">
+                <p className="text-white font-medium text-sm">
+                  {email}
+                </p>
+              </div>
+            </div>
+
+            {/* Form section */}
+            <div className="px-8 py-8">
+              {/* OTP Input */}
+              <div className="mb-8">
+                <label className="block text-sm font-semibold text-gray-700 mb-6 text-center">
+                  Enter 6-digit verification code
+                </label>
+                <OTPInput
+                  length={6}
+                  onComplete={handleOTPComplete}
+                  disabled={loading}
+                />
+              </div>
+
+              {/* Loading State */}
+              {loading && (
+                <div className="flex items-center justify-center space-x-3 text-teal-600 mb-6 bg-teal-50 rounded-xl p-4">
+                  <div className="w-5 h-5 border-2 border-teal-600 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="text-sm font-medium">Verifying your code...</span>
+                </div>
+              )}
+
+              {/* Resend Section */}
+              <div className="text-center mb-6">
+                <p className="text-gray-600 text-sm mb-4">
+                  Didn't receive the code?
+                </p>
+                
+                {canResend ? (
+                  <button
+                    onClick={handleResendOTP}
+                    disabled={resendLoading}
+                    className="bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 disabled:from-teal-400 disabled:to-teal-500 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-105 hover:shadow-lg disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2 mx-auto"
+                  >
+                    {resendLoading ? (
+                      <>
+                        <RefreshCw className="animate-spin" size={16} />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw size={16} />
+                        <span>Resend Code</span>
+                      </>
+                    )}
+                  </button>
+                ) : (
+                  <div className="bg-gray-100 rounded-lg p-3 inline-block">
+                    <p className="text-gray-600 text-sm font-medium">
+                      Resend available in {countdown}s
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="text-center pt-6 border-t border-gray-100">
+                <p className="text-gray-600 text-sm">
+                  Need help?{" "}
+                  <Link to="/support" className="text-teal-600 hover:text-teal-700 font-semibold hover:underline transition-colors">
+                    Contact Support
+                  </Link>
+                </p>
+              </div>
+            </div>
           </div>
 
-          {/* Loading State */}
-          {loading && (
-            <div className="flex items-center justify-center space-x-2 text-blue-600 mb-4">
-              <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-sm">Verifying...</span>
-            </div>
-          )}
-
-          {/* Footer */}
-          <p className="text-center text-gray-600 text-sm">
-            Need help?{" "}
-            <Link to="/support" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
-              Contact Support
-            </Link>
-          </p>
+          {/* Security note */}
+          <div className="text-center mt-6">
+            <p className="text-xs text-gray-500">
+              🔒 Your verification is secured with end-to-end encryption
+            </p>
+          </div>
         </div>
 
         {/* Custom API Message Toast */}
@@ -305,6 +332,13 @@ export default function VerifyEmailPage() {
             onClose={() => setApiMessage(null)}
           />
         )}
+      </div>
+
+      {/* Background decorative elements */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-teal-200/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-300/15 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-teal-100/10 rounded-full blur-3xl"></div>
       </div>
 
       <style jsx>{`

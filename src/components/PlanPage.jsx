@@ -472,7 +472,7 @@ export default function PlanPage() {
                       disabled={loadingBuy || !selectedPlan}
                       onClick={handleBuyProduct}
                       style={{ cursor: "pointer" }}
-                      className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md"
+                      className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md"
                     >
                       {loadingBuy ? (
                         <span className="flex items-center justify-center">

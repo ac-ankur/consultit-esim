@@ -11,10 +11,10 @@ const apiClient = axios.create({
   },
 });
 
-// Token management utilities
+
 const tokenManager = {
   getToken: () => {
-    // Using in-memory storage instead of localStorage for Claude.ai compatibility
+   
     return window.authToken || null;
   },
   

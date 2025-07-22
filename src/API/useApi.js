@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import apiClient from './apiClient';
 
 
-// Custom hook for API calls with loading states and error handling
+
 export function useApi() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

@@ -1,5 +1,6 @@
 import React, { createContext, useContext,useEffect, useState } from 'react';
 import { useUser } from './UserContext';
+import baseURL from '../API/baseUrl';
 
 const ProductContext = createContext();
 
@@ -14,7 +15,11 @@ export const ProductProvider = ({ children }) => {
 
   const fetchProducts = async () => {
       try {
-        const res = await fetch('https://consultit-esim.onrender.com/api/product/get-all-product'); 
+        const res = await fetch(`${baseURL}/product/get-all-product`, {
+          headers: {
+            Authorization: ''
+          },
+        });
         const data = await res.json();
         const tempProduct = await data?.data;
         // console.log(tempProduct)

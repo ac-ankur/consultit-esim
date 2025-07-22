@@ -56,12 +56,15 @@ console.log("Order Created:", orderCreated);
   const createOrder = async () => {
 
     try {
+      const token = localStorage.getItem("esim-accessToken");
+      console.log("token", token);
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_URL}/payment/create-order`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": token ? `Bearer ${token}` : "",
           },
           body: JSON.stringify({
             amount: numericPrice,
