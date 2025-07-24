@@ -184,15 +184,126 @@
 
 
 import { useEffect, useState } from "react";
-import { Eye, EyeOff, Lock, User, Mail, Phone } from "lucide-react";
+import { Eye, EyeOff, Lock, User, Mail, Phone, X, Check, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../appContext/UserContext";
 import { useFormik } from "formik";
-import toast from "react-hot-toast";
+// import { useState, useEffect } from "react";
 import baseURL from "../API/baseUrl";
 import apiClient from "../API/apiClient";
 import axios from "axios";
+
+// Custom Toast Component
+const CustomToast = ({ message, type, onClose }) => {
+  const bgColor = {
+    success: "bg-teal-100 border-teal-500",
+    error: "bg-red-100 border-red-500",
+    info: "bg-blue-100 border-blue-500",
+  };
+
+  const iconColor = {
+    success: "text-teal-600",
+    error: "text-red-600",
+    info: "text-blue-600",
+  };
+
+  const Icon = {
+    success: <Check className="w-5 h-5" />,
+    error: <X className="w-5 h-5" />,
+    info: <AlertCircle className="w-5 h-5" />,
+  };
+
+  return (
+    <div className={`fixed top-4 right-4 z-50 max-w-sm w-full shadow-lg rounded-lg border-l-4 ${bgColor[type]} p-4 flex items-start space-x-3 transition-all duration-300 animate-fade-in`}>
+      <div className={`flex-shrink-0 ${iconColor[type]}`}>
+        {Icon[type]}
+      </div>
+      <div className="flex-1 text-sm font-medium text-gray-800">
+        {message}
+      </div>
+      <button
+        onClick={onClose}
+        className="text-gray-500 hover:text-gray-700 focus:outline-none"
+      >
+        <X className="w-4 h-4" />
+      </button>
+    </div>
+  );
+};
+
+// Custom Toast Hook
+const useToast = () => {
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type = "info") => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(null);
+    }, 5000);
+  };
+
+  const ToastComponent = () => {
+    if (!toast) return null;
+    return (
+      <CustomToast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast(null)}
+      />
+    );
+  };
+
+  return { showToast, ToastComponent };
+};
+
+// OTP Input Component
+const OtpInput = ({ value, onChange, length = 6 }) => {
+  const handleChange = (e, index) => {
+    const newValue = [...value];
+    newValue[index] = e.target.value;
+    onChange(newValue.join(""));
+    
+    // Auto focus to next input
+    if (e.target.value && index < length - 1) {
+      const nextInput = document.getElementById(`otp-input-${index + 1}`);
+      if (nextInput) nextInput.focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !value[index] && index > 0) {
+      const prevInput = document.getElementById(`otp-input-${index - 1}`);
+      if (prevInput) prevInput.focus();
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData("text/plain").slice(0, length);
+    onChange(pasteData);
+  };
+
+  return (
+    <div className="flex justify-center space-x-3">
+      {Array.from({ length }).map((_, index) => (
+        <input
+          key={index}
+          id={`otp-input-${index}`}
+          type="text"
+          maxLength="1"
+          value={value[index] || ""}
+          onChange={(e) => handleChange(e, index)}
+          onKeyDown={(e) => handleKeyDown(e, index)}
+          onPaste={handlePaste}
+          className="w-12 h-12 text-center text-xl font-semibold border-2 border-gray-300 rounded-lg focus:border-teal-600 focus:ring-2 focus:ring-teal-200 transition-all duration-200"
+          pattern="[0-9]*"
+          inputMode="numeric"
+        />
+      ))}
+    </div>
+  );
+};
 
 export default function LoginPage() {
   const { setUserInContext } = useUser();
@@ -200,8 +311,9 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("password"); // 'password', 'email', 'phone'
-  const [otpSent, setOtpSent] = useState(true);
+  const [otpSent, setOtpSent] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
+  const { showToast, ToastComponent } = useToast();
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -228,6 +340,7 @@ export default function LoginPage() {
           if (response.status === 200) {
             const data = response.data;
             setUserInContext(data);
+            showToast("Login successful!", "success");
             navigate("/");
           }
         } else if (activeTab === "email" || activeTab === "phone") {
@@ -239,11 +352,12 @@ export default function LoginPage() {
           if (response.status === 200) {
             const data = response.data;
             setUserInContext(data);
+            showToast("Login successful!", "success");
             navigate("/");
           }
         }
       } catch (error) {
-        toast.error(error.response?.data?.message || "Invalid Credentials");
+        showToast(error.response?.data?.message || "Invalid Credentials", "error");
       } finally {
         setLoading(false);
       }
@@ -253,28 +367,20 @@ export default function LoginPage() {
   const handleSendOtp = async () => {
     setOtpLoading(true);
     try {
-      const contactMethod = activeTab === "email" ? "email" : "phone";
       const value = activeTab === "email" ? formik.values.email : formik.values.phone;
       
-      // await apiClient.post("/auth/verification/send-otp", {
-      //   contactMethod,
-      //   value
-      // });
       await axios.post(`${baseURL}/auth/verification/login-with-otp`, {
-        // contactMethod,  
         value
       }).then((res) => {
         if (res.status === 200) {
           setOtpSent(true);
-          toast.success("OTP sent successfully");
+          showToast("OTP sent successfully!", "success");
         } else {
           throw new Error("Failed to send OTP");
         }
       });
-      // setOtpSent(true);
-      // toast.success("OTP sent successfully");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to send OTP");
+      showToast(error.response?.data?.message || "Failed to send OTP", "error");
     } finally {
       setOtpLoading(false);
     }
@@ -282,6 +388,9 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-teal-100 flex items-center justify-center p-4">
+      {/* Toast Component */}
+      <ToastComponent />
+      
       <div className="w-full max-w-md">
         {/* Main login card */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-teal-100 overflow-hidden">
@@ -412,48 +521,14 @@ export default function LoginPage() {
                       <label className="block text-sm font-semibold text-gray-700">
                         OTP
                       </label>
-                      <div className="relative group">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-teal-600 transition-colors" />
-                        </div>
-                        <input
-                          name="otp"
-                          type="text"
-                          className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-teal-600 focus:ring-4 focus:ring-teal-600/10 transition-all duration-200 bg-gray-50 focus:bg-white"
-                          required
-                          value={formik.values.otp}
-                          onChange={formik.handleChange}
-                          placeholder="Enter the OTP sent to your email"
-                        />
-                      </div>
+                      <OtpInput 
+                        value={formik.values.otp} 
+                        onChange={(value) => formik.setFieldValue("otp", value)} 
+                      />
+                      <p className="text-xs text-gray-500 text-center mt-2">
+                        Enter the 6-digit OTP sent to your email
+                      </p>
                     </div>
-                  )}
-
-                  {!otpSent ? (
-                    <button
-                      type="button"
-                      onClick={handleSendOtp}
-                      disabled={otpLoading || !formik.values.email}
-                      className="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 disabled:from-teal-400 disabled:to-teal-500 text-white py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                    >
-                      {otpLoading ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          <span>Sending OTP...</span>
-                        </>
-                      ) : (
-                        <span>Send OTP</span>
-                      )}
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={handleSendOtp}
-                      disabled={otpLoading}
-                      className="w-full text-sm text-teal-600 hover:text-teal-700 py-2 rounded-xl font-medium transition-all duration-200"
-                    >
-                      Resend OTP
-                    </button>
                   )}
                 </>
               )}
@@ -487,50 +562,54 @@ export default function LoginPage() {
                       <label className="block text-sm font-semibold text-gray-700">
                         OTP
                       </label>
-                      <div className="relative group">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-teal-600 transition-colors" />
-                        </div>
-                        <input
-                          name="otp"
-                          type="text"
-                          className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-teal-600 focus:ring-4 focus:ring-teal-600/10 transition-all duration-200 bg-gray-50 focus:bg-white"
-                          required
-                          value={formik.values.otp}
-                          onChange={formik.handleChange}
-                          placeholder="Enter the OTP sent to your phone"
-                        />
-                      </div>
+                      <OtpInput 
+                        value={formik.values.otp} 
+                        onChange={(value) => formik.setFieldValue("otp", value)} 
+                      />
+                      <p className="text-xs text-gray-500 text-center mt-2">
+                        Enter the 6-digit OTP sent to your phone
+                      </p>
                     </div>
                   )}
-
-                  {!otpSent ? (
-                    <button
-                      type="button"
-                      onClick={handleSendOtp}
-                      disabled={otpLoading || !formik.values.phone}
-                      className="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 disabled:from-teal-400 disabled:to-teal-500 text-white py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                    >
-                      {otpLoading ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          <span>Sending OTP...</span>
-                        </>
-                      ) : (
-                        <span>Send OTP</span>
-                      )}
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={handleSendOtp}
-                      disabled={otpLoading}
-                      className="w-full text-sm text-teal-600 hover:text-teal-700 py-2 rounded-xl font-medium transition-all duration-200"
-                    >
-                      Resend OTP
-                    </button>
-                  )}
                 </>
+              )}
+
+              {/* Send/Resend OTP button */}
+              {(activeTab === "email" || activeTab === "phone") && !otpSent ? (
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  disabled={otpLoading || 
+                    (activeTab === "email" && !formik.values.email) || 
+                    (activeTab === "phone" && !formik.values.phone)}
+                  className="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 disabled:from-teal-400 disabled:to-teal-500 text-white py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                >
+                  {otpLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending OTP...</span>
+                    </>
+                  ) : (
+                    <span>Send OTP</span>
+                  )}
+                </button>
+              ) : null}
+
+              {/* Resend OTP button */}
+              {otpSent && (
+                <div className="flex justify-between items-center">
+                  <p className="text-sm text-gray-500">
+                    Didn't receive OTP? 
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={otpLoading}
+                    className="text-sm text-teal-600 hover:text-teal-700 font-medium hover:underline transition-colors"
+                  >
+                    {otpLoading ? "Sending..." : "Resend OTP"}
+                  </button>
+                </div>
               )}
 
               {/* Submit button (for password login or OTP verification) */}
